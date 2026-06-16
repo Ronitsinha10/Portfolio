@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Premium Charcoal-Black and Amber Dark Mode Theme Variables */
+  --color-darkBg: #0F0F0F;
+  --color-darkSurface: #171717;
+  --color-darkCard: #1E1E1E;
+  --color-darkText: #D6D3D1;
+  --color-darkHeading: #FAFAF9;
+  --color-darkAccent: #D97706;
+  --color-darkSecondaryAccent: #EA580C;
+  --color-darkHighlightAccent: #FBBF24;
+  --color-darkBorder: #292524;
+  --color-darkMuted: #A8A29E;
+  
+  /* Amber/Orange Light Mode Theme Variables (UNCHANGED) */
+  --color-lightBg: #FFFBF2;
+  --color-lightSurface: #FED7AA;
+  --color-lightCard: #FFFFFF;
+  --color-lightText: #57534E;
+  --color-lightHeading: #1C1917;
+  --color-lightAccent: #F59E0B;
+  --color-lightSecondaryAccent: #FB923C;
+  --color-lightHighlightAccent: #FBBF24;
+  --color-lightHoverAccent: #EA580C;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Manrope', sans-serif;
+
+  --animate-spin-slow: spin 12s linear infinite;
+  --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply antialiased font-sans bg-lightBg dark:bg-darkBg text-lightText dark:text-darkText overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-lightHeading dark:text-darkHeading tracking-tight;
+  }
+}
+
+.light {
+  /* Soft amber-tinted shadows (UNCHANGED) */
+  --shadow-sm: 0 1px 2px 0 rgba(245, 158, 11, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(245, 158, 11, 0.08), 0 2px 4px -2px rgba(245, 158, 11, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -4px rgba(245, 158, 11, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(245, 158, 11, 0.15), 0 8px 10px -6px rgba(245, 158, 11, 0.15);
+  --shadow-2xl: 0 25px 50px -12px rgba(245, 158, 11, 0.25);
+  
+  /* Override default Tailwind grays in light mode for a beautiful amber/orange context (UNCHANGED) */
+  --color-gray-50: #FFFDF9;
+  --color-gray-100: #FFF9ED;
+  --color-gray-200: #FED7AA;
+  --color-gray-300: #FDBA74;
+}
+
+.dark {
+  /* Soft neutral shadows for dark mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.22);
+  --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.25); /* Preferred shadow style */
+  --shadow-xl: 0 10px 32px rgba(0, 0, 0, 0.3);
+  --shadow-2xl: 0 20px 48px rgba(0, 0, 0, 0.35);
+  
+  /* Override default Tailwind grays in dark mode for a neutral charcoal context */
+  --color-gray-955: #0F0F0F; /* Main Background */
+  --color-gray-950: #171717; /* Secondary Background */
+  --color-gray-900: #1E1E1E; /* Card Background */
+  --color-gray-800: #292524; /* Border Color */
+  --color-gray-700: #403E3C;
+  --color-gray-600: #57534E;
+  --color-gray-500: #A8A29E; /* Muted Text */
+  --color-gray-400: #D6D3D1; /* Body Text */
+}
+
+/* Custom Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-lightAccent/40 dark:hover:bg-darkAccent/40 transition-colors;
+}
+
+/* Glassmorphism Classes (Refined for Dark Mode) */
+.glass {
+  @apply backdrop-blur-md bg-white/70 border border-gray-200/20 shadow-sm;
+}
+.dark .glass {
+  backdrop-filter: blur(8px) !important;
+  background-color: rgba(23, 23, 23, 0.9) !important;
+  border-color: #292524 !important;
+}
+
+.glass-card {
+  @apply backdrop-blur-md bg-white/10 border border-gray-200/10;
+}
+.dark .glass-card {
+  backdrop-filter: blur(6px) !important;
+  background-color: rgba(30, 30, 30, 0.8) !important;
+  border-color: #292524 !important;
+}
+
+/* 3D tilt helper perspective presets */
+.perspective-1000 {
+  perspective: 1000px;
+}
