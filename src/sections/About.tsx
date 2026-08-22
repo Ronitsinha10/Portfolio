@@ -57,7 +57,7 @@ export const About: React.FC = () => {
     {
       icon: <Compass className="w-5 h-5 text-purple-500" />,
       title: 'Career Journey',
-      description: 'Progressed from writing basic scripts to engineering complex MERN applications, refactoring low-level subsystems, and contributing to global programs like GSoC.',
+      description: 'Progressed from writing basic scripts to engineering modern full-stack applications, building scalable web solutions, and contributing to open-source projects through GitHub collaboration.',
     },
     {
       icon: <Heart className="w-5 h-5 text-rose-500" />,

@@ -22,7 +22,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { toggleTheme } = useTheme();
-  
+
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +89,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
       category: 'Socials',
       icon: <Github className="w-4 h-4 text-gray-400" />,
       action: () => {
-        window.open('https://github.com/ronitsinha', '_blank');
+        window.open('https://github.com/Ronitsinha10', '_blank');
         setIsOpen(false);
       },
       shortcut: 'G'
@@ -115,22 +115,27 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
   // Listen to Cmd/Ctrl + K
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        setIsOpen((prev) => {
+          if (!prev) {
+            setSearch('');
+            setSelectedIndex(0);
+            return true;
+          }
+          return false;
+        });
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Keyboard navigation inside open palette
+  // Auto focus input when opened
   useEffect(() => {
     if (!isOpen) return;
-    setSelectedIndex(0);
-    setSearch('');
-    // Auto focus input
-    setTimeout(() => inputRef.current?.focus(), 50);
+    const timer = setTimeout(() => inputRef.current?.focus(), 50);
+    return () => clearTimeout(timer);
   }, [isOpen]);
 
   useEffect(() => {
@@ -142,10 +147,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
         setIsOpen(false);
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % filteredCommands.length);
+        if (filteredCommands.length > 0) {
+          setSelectedIndex((prev) => (prev + 1) % filteredCommands.length);
+        }
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + filteredCommands.length) % filteredCommands.length);
+        if (filteredCommands.length > 0) {
+          setSelectedIndex((prev) => (prev - 1 + filteredCommands.length) % filteredCommands.length);
+        }
       } else if (e.key === 'Enter') {
         e.preventDefault();
         if (filteredCommands[selectedIndex]) {
@@ -221,7 +230,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
                   type="text"
                   placeholder="Type a command or search..."
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setSelectedIndex(0);
+                  }}
                   className="w-full py-4 text-sm bg-transparent border-0 outline-none ring-0 text-gray-800 dark:text-gray-100 placeholder-gray-400"
                 />
                 <kbd className="px-2 py-0.5 rounded border border-gray-200/50 dark:border-gray-800 bg-gray-100/50 dark:bg-gray-800/50 text-[10px] font-mono text-gray-400">ESC</kbd>
@@ -240,11 +252,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
                         key={cmd.id}
                         onClick={cmd.action}
                         onMouseEnter={() => setSelectedIndex(idx)}
-                        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors cursor-pointer ${
-                          isSelected
+                        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors cursor-pointer ${isSelected
                             ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent'
                             : 'text-gray-600 dark:text-gray-300'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           {cmd.icon}

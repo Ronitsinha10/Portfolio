@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { GitPullRequest, GitFork, GitMerge, Star, Terminal } from 'lucide-react';
 import { ScrollReveal } from '../components/ScrollReveal';
-
-// Generate contributions data representing one year
-const generateContributionGrid = () => {
-  const grid: { count: number; date: string; level: number }[][] = [];
-  
-  for (let row = 0; row < 7; row++) {
-    const dayRow: { count: number; date: string; level: number }[] = [];
-    for (let col = 0; col < 26; col++) {
-      // Create random contribution weights
-      const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
-      const count = level === 0 ? 0 : Math.floor(Math.random() * 8) + 1;
-      const date = `May ${col + 1}, 2025`;
-      dayRow.push({ count, date, level });
-    }
-    grid.push(dayRow);
-  }
-  return grid;
-};
+import { GitHubCalendar } from 'react-github-calendar';
+import { useTheme } from '../context/ThemeContext';
 
 export const OpenSource: React.FC = () => {
-  const [gridData] = useState(() => generateContributionGrid());
-  const [activeTooltip, setActiveTooltip] = useState<{ count: number; date: string } | null>(null);
+  const { theme } = useTheme();
 
   const stats = [
     { label: 'PRs Merged', value: 42, icon: <GitMerge className="w-4 h-4 text-emerald-500" /> },
@@ -61,7 +44,7 @@ export const OpenSource: React.FC = () => {
                 I strongly believe in the open-source philosophy. From fixing minor typos to optimizing core latency structures, I contribute code to public platforms to make things better for everyone.
               </p>
               <p>
-                My Google Summer of Code project under **The Linux Foundation** involved modular Java refactoring, writing concurrent parsing systems, and collaborating via GitHub pull requests with project maintainers worldwide.
+                I actively contribute to open-source projects by improving code quality, collaborating with developers, reviewing issues, and building scalable software solutions using modern development practices.
               </p>
             </div>
 
@@ -103,79 +86,27 @@ export const OpenSource: React.FC = () => {
                     GitHub Activity Visualizer
                   </h4>
                   <p className="text-[10px] text-gray-500 font-sans mt-0.5">
-                    120 commits submitted in open source repositories
+                    A visual overview of my GitHub activity and continuous learning journey as a developer.
                   </p>
                 </div>
                 <div className="text-[10px] font-mono text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 rounded-full">
-                  @ronitsinha
+                  @Ronitsinha10
                 </div>
               </div>
 
               {/* Grid Scroll container */}
-              <div className="overflow-x-auto pb-2 relative select-none">
-                <div className="min-w-[500px] flex flex-col gap-1.5 justify-center">
-                  {gridData.map((row, rIdx) => (
-                    <div key={rIdx} className="flex gap-1.5">
-                      {row.map((cell, cIdx) => {
-                        // Class naming helper for contribution heat map levels
-                        const getLevelColor = (lvl: number) => {
-                          switch (lvl) {
-                            case 1:
-                              return 'bg-emerald-900/30 dark:bg-emerald-500/10 border-emerald-500/10';
-                            case 2:
-                              return 'bg-emerald-900/60 dark:bg-emerald-500/30 border-emerald-500/20';
-                            case 3:
-                              return 'bg-emerald-700 dark:bg-emerald-500/60 border-emerald-500/35';
-                            case 4:
-                              return 'bg-emerald-500 dark:bg-emerald-400 border-emerald-400/50';
-                            default:
-                              return 'bg-gray-100 dark:bg-gray-950 border-gray-200/20 dark:border-gray-900';
-                          }
-                        };
-
-                        return (
-                          <motion.div
-                            key={cIdx}
-                            initial={{ scale: 0.2, opacity: 0 }}
-                            whileInView={{ scale: 1, opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{
-                              delay: (rIdx + cIdx) * 0.008,
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 20
-                            }}
-                            onMouseEnter={() => setActiveTooltip({ count: cell.count, date: cell.date })}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            className={`w-3.5 h-3.5 rounded-[3px] border cursor-pointer transition-colors duration-150 ${getLevelColor(
-                              cell.level
-                            )}`}
-                          />
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Contribution details tooltip overlay */}
-                {activeTooltip && (
-                  <div className="absolute top-[-30px] right-2 bg-gray-900 text-white px-2.5 py-1 rounded text-[9px] font-mono shadow-md border border-gray-800 pointer-events-none">
-                    {activeTooltip.count} commits on {activeTooltip.date}
-                  </div>
-                )}
-              </div>
-
-              {/* Heatmap legend guide */}
-              <div className="flex justify-between items-center text-[10px] text-gray-500 font-sans">
-                <span>Jan - Jun Activity</span>
-                <div className="flex items-center gap-1">
-                  <span>Less</span>
-                  <div className="w-2.5 h-2.5 rounded-sm bg-gray-100 dark:bg-gray-950 border border-gray-200/15" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-emerald-900/30 dark:bg-emerald-500/10 border border-emerald-500/10" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-emerald-900/60 dark:bg-emerald-500/30 border border-emerald-500/20" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-emerald-700 dark:bg-emerald-500/60 border border-emerald-500/30" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500 dark:bg-emerald-400 border border-emerald-400/50" />
-                  <span>More</span>
+              <div className="overflow-x-auto pb-2 relative select-none calendar-scrollbar">
+                <div className="min-w-[960px] flex justify-center">
+                  <GitHubCalendar 
+                    username="Ronitsinha10"
+                    colorScheme={theme}
+                    theme={{
+                      light: ['#FAF3E8', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+                      dark: ['#292524', '#0e4429', '#006d32', '#26a641', '#39d353'],
+                    }}
+                    blockSize={15}
+                    blockMargin={3}
+                  />
                 </div>
               </div>
             </motion.div>

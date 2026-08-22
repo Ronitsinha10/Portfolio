@@ -106,7 +106,7 @@
 }
 .dark .glass {
   backdrop-filter: blur(8px) !important;
-  background-color: rgba(23, 23, 23, 0.9) !important;
+  background-color: rgba(37, 11, 11, 0.9) !important;
   border-color: #292524 !important;
 }
 
@@ -122,4 +122,25 @@
 /* 3D tilt helper perspective presets */
 .perspective-1000 {
   perspective: 1000px;
+}
+
+/* Custom scrollbar utility for the contribution calendar */
+.calendar-scrollbar::-webkit-scrollbar {
+  height: 5px;
+}
+.calendar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.calendar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 99px;
+}
+.calendar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+.dark .calendar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(82, 82, 91, 0.4);
+}
+.dark .calendar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(82, 82, 91, 0.6);
 }

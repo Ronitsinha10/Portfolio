@@ -84,7 +84,7 @@ export const portfolioData = {
       'Problem Solver'
     ],
     socials: {
-      github: 'https://github.com/ronitsinha',
+      github: 'https://github.com/Ronitsinha10',
       linkedin: 'https://linkedin.com/in/ronitsinha',
       twitter: 'https://twitter.com/ronitsinha_dev',
       leetcode: 'https://leetcode.com/ronitsinha',
@@ -182,7 +182,7 @@ export const portfolioData = {
         'Subtle command palette (Ctrl+K) for instant keyboard shortcuts.',
         'Comprehensive activity feeds and role-based permissions.'
       ],
-      githubUrl: 'https://github.com/ronitsinha/devsphere-saas',
+      githubUrl: 'https://github.com/Ronitsinha10/devsphere-saas',
       liveUrl: 'https://devsphere-workspace.vercel.app',
       image: 'gradient-blue'
     },
@@ -199,7 +199,7 @@ export const portfolioData = {
         'Responsiveness testing sandbox matching variable dimensions.',
         'Custom interactive physics transitions and spring configuration tools.'
       ],
-      githubUrl: 'https://github.com/ronitsinha/aura-ui-engine',
+      githubUrl: 'https://github.com/Ronitsinha10/aura-ui-engine',
       liveUrl: 'https://aura-ui.dev',
       image: 'gradient-purple'
     },
@@ -216,7 +216,7 @@ export const portfolioData = {
         'Robust metrics dashboard exposing server requests, error thresholds, and system loads.',
         'Docker-compose deployment orchestrator for database and service instances.'
       ],
-      githubUrl: 'https://github.com/ronitsinha/concurrent-log-processor',
+      githubUrl: 'https://github.com/Ronitsinha10/concurrent-log-processor',
       liveUrl: 'https://log-metrics.ronitsinha.dev',
       image: 'gradient-orange'
     },
@@ -232,7 +232,7 @@ export const portfolioData = {
         'Stunning layouts built with responsive SVG and HSL gradient mappings.',
         'Tracks active repository progress and details of accepted pull requests.'
       ],
-      githubUrl: 'https://github.com/ronitsinha/opengit-visuals',
+      githubUrl: 'https://github.com/Ronitsinha10/opengit-visuals',
       liveUrl: 'https://opengit-viz.dev',
       image: 'gradient-emerald'
     },
@@ -248,7 +248,7 @@ export const portfolioData = {
         'Interactive analytics dashboard displaying sales statistics.',
         'Optimized responsive grid interface with sorting, tagging, and filtering controls.'
       ],
-      githubUrl: 'https://github.com/ronitsinha/nova-hub',
+      githubUrl: 'https://github.com/Ronitsinha10/nova-hub',
       liveUrl: 'https://nova-commerce.dev',
       image: 'gradient-cyan'
     }
@@ -256,12 +256,12 @@ export const portfolioData = {
   codingProfiles: [
     {
       platform: 'GitHub',
-      username: 'ronitsinha',
+      username: 'Ronitsinha10',
       rating: 'Active Contributor',
       rank: 'Top 5%',
       solvedCount: 920,
       maxSolvedCount: 1000,
-      link: 'https://github.com/ronitsinha',
+      link: 'https://github.com/Ronitsinha10',
       stats: [
         { label: 'Repositories', value: 42 },
         { label: 'Stars Earned', value: 180 },
