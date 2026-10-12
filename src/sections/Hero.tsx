@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Download, Mail, Code2, Globe } from 'lucide-react';
-import { Github, Linkedin, Twitter } from '../components/SocialIcons';
+import { ArrowRight, Download, Mail, Code2 } from 'lucide-react';
+import { Github, Linkedin, X } from '../components/SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 import { fadeInUp, staggerContainer } from '../animations/variants';
 import profileImg from '../assets/profile.jpg';
@@ -213,13 +213,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               <Linkedin className="w-4 h-4" />
             </a>
             <a
-              href={socials.twitter}
+              href={socials.x}
               target="_blank"
               rel="noreferrer"
               className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
-              title="Twitter/X"
+              title="X"
             >
-              <Twitter className="w-4 h-4" />
+              <X className="w-4 h-4" />
             </a>
             <a
               href={socials.leetcode}
@@ -229,15 +229,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               title="LeetCode"
             >
               <Code2 className="w-4 h-4" />
-            </a>
-            <a
-              href={socials.codeforces}
-              target="_blank"
-              rel="noreferrer"
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
-              title="Codeforces"
-            >
-              <Globe className="w-4 h-4" />
             </a>
             <a
               href={socials.email}

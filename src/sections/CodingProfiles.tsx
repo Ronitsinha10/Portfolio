@@ -1,9 +1,12 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ExternalLink, Flame, Target, Trophy } from 'lucide-react';
+import { ExternalLink, Flame, Target } from 'lucide-react';
 import { Github } from '../components/SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '../components/ScrollReveal';
+import { useGitHubContributions } from '../hooks/useGitHubContributions';
+import { useGitHubRepos } from '../hooks/useGitHubRepos';
+import { useLeetCodeStats } from '../hooks/useLeetCodeStats';
 
 const CircularProgress: React.FC<{ value: number; max: number; label: string; colorClass: string }> = ({
   value,
@@ -59,8 +62,21 @@ const CircularProgress: React.FC<{ value: number; max: number; label: string; co
 };
 
 export const CodingProfiles: React.FC = () => {
-  const { codingProfiles } = portfolioData;
+  const { codingProfiles, personalInfo } = portfolioData;
+  const { contributions: ghContributions } = useGitHubContributions();
+  const { repos: ghRepos } = useGitHubRepos();
+  const { solved: leetCodeSolved } = useLeetCodeStats();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const extractGitHubUsername = (url: string) => {
+    const match = url.match(/github\.com\/([^/?#]+)/i);
+    return match ? match[1] : 'Ronitsinha10';
+  };
+
+  const extractLeetCodeUsername = (url: string) => {
+    const match = url.match(/leetcode\.com\/(?:u\/)?([^/?#]+)/i);
+    return match ? match[1] : 'IHuDORGnqv';
+  };
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -76,8 +92,6 @@ export const CodingProfiles: React.FC = () => {
         return <Github className="w-5 h-5 text-gray-800 dark:text-white" />;
       case 'leetcode':
         return <Flame className="w-5 h-5 text-orange-500" />;
-      case 'codeforces':
-        return <Trophy className="w-5 h-5 text-indigo-500" />;
       default:
         return <Target className="w-5 h-5 text-indigo-500" />;
     }
@@ -89,8 +103,6 @@ export const CodingProfiles: React.FC = () => {
         return 'stroke-gray-800 dark:stroke-white';
       case 'leetcode':
         return 'stroke-orange-500';
-      case 'codeforces':
-        return 'stroke-indigo-500';
       default:
         return 'stroke-indigo-500';
     }
@@ -123,75 +135,105 @@ export const CodingProfiles: React.FC = () => {
         </ScrollReveal>
 
         {/* Profiles Grid */}
-        <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {codingProfiles.map((profile) => (
-            <ScrollStaggerItem key={profile.platform} animation="scale-in">
-              <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm hover:border-lightAccent/25 dark:hover:border-darkAccent/25 hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-6">
-                {/* Profile Card Header */}
-                <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                      {getPlatformIcon(profile.platform)}
+        <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 lg:gap-8">
+          {codingProfiles.map((profile) => {
+            const isGitHub = profile.platform.toLowerCase() === 'github';
+            const isLeetCode = profile.platform.toLowerCase() === 'leetcode';
+
+            const effectiveUsername = isGitHub
+              ? extractGitHubUsername(personalInfo.socials.github)
+              : isLeetCode
+              ? extractLeetCodeUsername(personalInfo.socials.leetcode)
+              : profile.username;
+
+            const effectiveLink = isGitHub
+              ? personalInfo.socials.github
+              : isLeetCode
+              ? personalInfo.socials.leetcode
+              : profile.link;
+
+            const effectiveSolvedCount = isGitHub && ghContributions !== null
+              ? ghContributions
+              : isLeetCode && leetCodeSolved !== null
+              ? leetCodeSolved
+              : profile.solvedCount;
+
+            const effectiveStats = profile.stats.map((st) => {
+              if (isGitHub && st.label.toLowerCase() === 'repositories' && ghRepos !== null) {
+                return { ...st, value: ghRepos };
+              }
+              return st;
+            });
+
+            return (
+              <ScrollStaggerItem key={profile.platform} animation="scale-in">
+                <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm hover:border-lightAccent/25 dark:hover:border-darkAccent/25 hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-6">
+                  {/* Profile Card Header */}
+                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        {getPlatformIcon(profile.platform)}
+                      </div>
+                      <div>
+                        <h3 className="font-display font-extrabold text-sm sm:text-base text-lightText dark:text-darkText">
+                          {profile.platform}
+                        </h3>
+                        <p className="text-[10px] font-mono text-gray-500 dark:text-gray-400 mt-0.5">
+                          @{effectiveUsername}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-display font-extrabold text-sm sm:text-base text-lightText dark:text-darkText">
-                        {profile.platform}
-                      </h3>
-                      <p className="text-[10px] font-mono text-gray-500 dark:text-gray-400 mt-0.5">
-                        @{profile.username}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <a
-                    href={profile.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2 rounded-xl text-gray-400 hover:text-lightAccent dark:hover:text-darkAccent bg-gray-50 dark:bg-gray-800 hover:bg-lightAccent/10 dark:hover:bg-darkAccent/10 cursor-pointer transition-all"
-                    title={`Open ${profile.platform}`}
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
-
-                {/* Central Rating Details */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between bg-indigo-50/30 dark:bg-indigo-950/20 px-4 py-3 rounded-2xl border border-indigo-500/10">
-                    <span className="text-[10px] uppercase font-sans font-bold text-gray-500 dark:text-gray-400">
-                      Platform Credential
-                    </span>
-                    <span className="text-xs font-mono font-extrabold text-lightAccent dark:text-darkAccent">
-                      {profile.rating}
-                    </span>
+                    
+                    <a
+                      href={effectiveLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-2 rounded-xl text-gray-400 hover:text-lightAccent dark:hover:text-darkAccent bg-gray-50 dark:bg-gray-800 hover:bg-lightAccent/10 dark:hover:bg-darkAccent/10 cursor-pointer transition-all"
+                      title={`Open ${profile.platform}`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
                   </div>
 
-                  {/* SVG circular progress */}
-                  {profile.maxSolvedCount && (
-                    <CircularProgress
-                      value={profile.solvedCount}
-                      max={profile.maxSolvedCount}
-                      label={profile.platform === 'GitHub' ? 'Contributions' : 'Solved Count'}
-                      colorClass={getCircleColor(profile.platform)}
-                    />
-                  )}
-                </div>
-
-                {/* Sub Metrics Grid */}
-                <div className="grid grid-cols-3 gap-2 border-t border-gray-100 dark:border-gray-800 pt-5">
-                  {profile.stats.map((st) => (
-                    <div key={st.label} className="text-center">
-                      <span className="text-[9px] uppercase font-sans font-semibold text-gray-400 tracking-wider">
-                        {st.label}
+                  {/* Central Rating Details */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between bg-indigo-50/30 dark:bg-indigo-950/20 px-4 py-3 rounded-2xl border border-indigo-500/10">
+                      <span className="text-[10px] uppercase font-sans font-bold text-gray-500 dark:text-gray-400">
+                        Platform Credential
                       </span>
-                      <p className="font-mono font-extrabold text-xs text-lightText dark:text-darkText mt-1">
-                        {st.value}
-                      </p>
+                      <span className="text-xs font-mono font-extrabold text-lightAccent dark:text-darkAccent">
+                        {profile.rating}
+                      </span>
                     </div>
-                  ))}
+
+                    {/* SVG circular progress */}
+                    {profile.maxSolvedCount && (
+                      <CircularProgress
+                        value={effectiveSolvedCount}
+                        max={profile.maxSolvedCount}
+                        label={profile.platform === 'GitHub' ? 'Contributions' : 'Solved Count'}
+                        colorClass={getCircleColor(profile.platform)}
+                      />
+                    )}
+                  </div>
+
+                  {/* Sub Metrics Grid */}
+                  <div className="grid grid-cols-3 gap-2 border-t border-gray-100 dark:border-gray-800 pt-5">
+                    {effectiveStats.map((st) => (
+                      <div key={st.label} className="text-center">
+                        <span className="text-[9px] uppercase font-sans font-semibold text-gray-400 tracking-wider">
+                          {st.label}
+                        </span>
+                        <p className="font-mono font-extrabold text-xs text-lightText dark:text-darkText mt-1">
+                          {st.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </ScrollStaggerItem>
-          ))}
+              </ScrollStaggerItem>
+            );
+          })}
         </ScrollStagger>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Hash, SunMoon, Download } from 'lucide-react';
-import { Github, Linkedin } from './SocialIcons';
+import { Search, Hash, SunMoon, Download, Code2 } from 'lucide-react';
+import { Github, Linkedin, X } from './SocialIcons';
 import { useTheme } from '../context/ThemeContext';
 
 interface CommandPaletteProps {
@@ -100,9 +100,31 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
       category: 'Socials',
       icon: <Linkedin className="w-4 h-4 text-gray-400" />,
       action: () => {
-        window.open('https://linkedin.com/in/ronitsinha', '_blank');
+        window.open('https://www.linkedin.com/in/ronit-sinha-5b3b16329/', '_blank');
         setIsOpen(false);
       }
+    },
+    {
+      id: 'social-x',
+      title: 'View X Profile',
+      category: 'Socials',
+      icon: <X className="w-4 h-4 text-gray-400" />,
+      action: () => {
+        window.open('https://x.com/Ronit_Sinha10', '_blank');
+        setIsOpen(false);
+      },
+      shortcut: 'X'
+    },
+    {
+      id: 'social-leetcode',
+      title: 'View LeetCode Profile',
+      category: 'Socials',
+      icon: <Code2 className="w-4 h-4 text-gray-400" />,
+      action: () => {
+        window.open('https://leetcode.com/u/IHuDORGnqv/', '_blank');
+        setIsOpen(false);
+      },
+      shortcut: 'L'
     }
   ];
 
@@ -253,8 +275,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
                         onClick={cmd.action}
                         onMouseEnter={() => setSelectedIndex(idx)}
                         className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors cursor-pointer ${isSelected
-                            ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent'
-                            : 'text-gray-600 dark:text-gray-300'
+                          ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent'
+                          : 'text-gray-600 dark:text-gray-300'
                           }`}
                       >
                         <div className="flex items-center gap-3">

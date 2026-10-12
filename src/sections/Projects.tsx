@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ExternalLink, X, Terminal as TermIcon, GitCommit, LineChart } from 'lucide-react';
+import { Search, ExternalLink, X, GitCommit, LineChart } from 'lucide-react';
 import { Github } from '../components/SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 import type { ProjectItem } from '../data/portfolioData';
@@ -9,74 +9,153 @@ import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '../components/Sc
 // Inline Mock UI visuals representing each project, replacing generic placeholders
 const ProjectVisual: React.FC<{ projectId: string }> = ({ projectId }) => {
   switch (projectId) {
-    case 'proj1': // DevSphere SaaS
+    case 'proj1': // B.Tech Resume Builder
       return (
-        <div className="w-full h-full bg-slate-900 flex flex-col p-4 text-white font-mono text-[9px] select-none">
+        <div className="w-full h-full bg-slate-950 flex flex-col p-4 text-white font-sans select-none relative overflow-hidden">
           {/* Header */}
-          <div className="flex justify-between border-b border-gray-800 pb-2 mb-3">
-            <span className="text-[10px] font-bold text-indigo-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-              DevSphere Workspace
+          <div className="flex justify-between items-center border-b border-slate-800 pb-2 mb-3">
+            <span className="text-[10px] font-bold text-sky-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+              B.Tech Resume Builder
             </span>
-            <div className="flex gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+            <div className="flex items-center gap-1.5 text-[8px] bg-sky-500/10 text-sky-300 px-2 py-0.5 rounded-full border border-sky-500/20 font-mono">
+              ATS-Optimized
             </div>
           </div>
-          {/* Kanban Board Representation */}
-          <div className="grid grid-cols-3 gap-2 flex-1">
-            <div className="bg-slate-800/40 p-2 rounded border border-gray-800">
-              <p className="text-[8px] text-gray-400 font-bold mb-1">Todo</p>
-              <div className="bg-slate-800 p-1.5 rounded border border-gray-700 mb-1 text-gray-300">Auth system</div>
-              <div className="bg-slate-800 p-1.5 rounded border border-gray-700 text-gray-300">Stripe gateway</div>
+          {/* Split UI Preview Representation */}
+          <div className="flex-1 grid grid-cols-5 gap-2.5 overflow-hidden">
+            {/* Left customizer panel simulation */}
+            <div className="col-span-2 bg-slate-900/80 rounded-lg p-2 border border-slate-800/80 flex flex-col gap-1.5 font-mono text-[7px] text-slate-400">
+              <div className="flex items-center justify-between text-slate-300 font-semibold border-b border-slate-800 pb-1">
+                <span>Editor</span>
+                <span className="text-sky-400">v1.0</span>
+              </div>
+              <div className="bg-slate-800/60 p-1 rounded text-slate-300 truncate">👤 Contact</div>
+              <div className="bg-slate-800/60 p-1 rounded text-slate-300 truncate">🎓 Education</div>
+              <div className="bg-sky-950/60 p-1 rounded border border-sky-700/50 text-sky-300 truncate">⚡ Skills & Projects</div>
+              <div className="mt-auto flex gap-1 pt-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-zinc-600" />
+              </div>
             </div>
-            <div className="bg-slate-800/40 p-2 rounded border border-gray-800">
-              <p className="text-[8px] text-yellow-400 font-bold mb-1">Active</p>
-              <div className="bg-indigo-950 p-1.5 rounded border border-indigo-800 text-indigo-300">Socket sync</div>
-            </div>
-            <div className="bg-slate-800/40 p-2 rounded border border-gray-800">
-              <p className="text-[8px] text-emerald-400 font-bold mb-1">Done</p>
-              <div className="bg-slate-800 p-1.5 rounded border border-gray-700 opacity-50 line-through text-gray-300">Setup repo</div>
+            {/* Right resume sheet preview simulation */}
+            <div className="col-span-3 bg-white text-slate-900 rounded-lg p-2.5 shadow-md flex flex-col justify-between font-sans text-[7px]">
+              <div>
+                <div className="border-b border-slate-200 pb-1 mb-1.5">
+                  <p className="font-bold text-[9px] text-slate-900 leading-none">Ronit Sinha</p>
+                  <p className="text-[6.5px] text-sky-700 font-medium">B.Tech in Computer Science & Engineering</p>
+                </div>
+                <div className="space-y-1">
+                  <div>
+                    <span className="text-[6px] font-bold text-slate-400 uppercase tracking-wider block">Education</span>
+                    <div className="h-1 bg-slate-200 rounded w-4/5 my-0.5" />
+                  </div>
+                  <div>
+                    <span className="text-[6px] font-bold text-slate-400 uppercase tracking-wider block">Projects</span>
+                    <div className="h-1 bg-slate-200 rounded w-full my-0.5" />
+                    <div className="h-1 bg-slate-200 rounded w-3/4 my-0.5" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[6.5px] text-slate-500">
+                <span>PDF Ready</span>
+                <span className="font-bold text-sky-600">A4 • 100% ATS</span>
+              </div>
             </div>
           </div>
         </div>
       );
 
-    case 'proj2': // Aura UI Design Engine
+    case 'proj2': // Virtual Interview Coach
       return (
-        <div className="w-full h-full bg-zinc-950 flex flex-col p-4 text-zinc-300 font-sans select-none justify-center items-center relative overflow-hidden">
-          {/* Gradient blobs in back */}
-          <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-500/10 blur-xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-24 h-24 rounded-full bg-indigo-500/10 blur-xl animate-pulse" />
-          {/* Interactive button layout mockup */}
-          <div className="z-10 flex flex-col gap-3 items-center w-full max-w-[180px] p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl backdrop-blur-md">
-            <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Button Customizer</span>
-            <div className="w-full h-8 flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-[10px] font-semibold text-white shadow-lg shadow-indigo-500/20">
-              Interactive Preview
+        <div className="w-full h-full bg-slate-950 flex flex-col p-4 text-white font-sans select-none relative overflow-hidden">
+          {/* Header */}
+          <div className="flex justify-between items-center border-b border-slate-800 pb-2 mb-2.5">
+            <span className="text-[10px] font-bold text-violet-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+              AI Virtual Interview Coach
+            </span>
+            <div className="flex items-center gap-1.5 text-[8px] bg-violet-500/10 text-violet-300 px-2 py-0.5 rounded-full border border-violet-500/20 font-mono">
+              ElevenLabs AI • Voice Active
             </div>
-            <div className="flex gap-1.5 w-full">
-              <div className="flex-1 py-1 rounded bg-zinc-800 border border-zinc-700 text-center text-[7px] text-zinc-400">Border Radius</div>
-              <div className="flex-1 py-1 rounded bg-zinc-800 border border-zinc-700 text-center text-[7px] text-zinc-400">Spring Damping</div>
+          </div>
+          {/* Main Visual: Mock AI Voice Room */}
+          <div className="flex-1 flex flex-col justify-between bg-slate-900/60 rounded-xl p-3 border border-slate-800/80">
+            {/* Audio Waveform simulation */}
+            <div className="flex items-center justify-center gap-1 py-1">
+              {[40, 65, 90, 50, 100, 75, 45, 85, 95, 60, 80, 55, 30].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-1 rounded-full bg-gradient-to-t from-violet-600 to-indigo-400 opacity-90"
+                  style={{ height: `${h * 0.28}px` }}
+                />
+              ))}
+            </div>
+            {/* Current Question box */}
+            <div className="bg-slate-950/70 p-2 rounded-lg border border-slate-800 text-[8px] text-slate-300 font-mono">
+              <span className="text-violet-400 font-bold block mb-0.5">AI Interviewer:</span>
+              "Can you explain your approach to architecting a scalable REST API using Node.js & MongoDB?"
+            </div>
+            {/* Performance Metric badges */}
+            <div className="grid grid-cols-3 gap-1.5 pt-1">
+              <div className="bg-slate-800/60 p-1 rounded text-center">
+                <span className="text-[6.5px] text-slate-400 uppercase block">Clarity</span>
+                <span className="text-[8.5px] font-bold text-emerald-400 font-mono">94%</span>
+              </div>
+              <div className="bg-slate-800/60 p-1 rounded text-center">
+                <span className="text-[6.5px] text-slate-400 uppercase block">Confidence</span>
+                <span className="text-[8.5px] font-bold text-violet-400 font-mono">91%</span>
+              </div>
+              <div className="bg-slate-800/60 p-1 rounded text-center">
+                <span className="text-[6.5px] text-slate-400 uppercase block">ATS Score</span>
+                <span className="text-[8.5px] font-bold text-cyan-400 font-mono">88%</span>
+              </div>
             </div>
           </div>
         </div>
       );
 
-    case 'proj3': // Concurrent Logs Processor
+    case 'proj3': // Developer Portfolio
       return (
-        <div className="w-full h-full bg-black flex flex-col p-4 text-emerald-400 font-mono text-[8px] select-none">
-          <div className="flex items-center gap-2 border-b border-zinc-800 pb-2 mb-2">
-            <TermIcon className="w-3.5 h-3.5 text-emerald-500" />
-            <span className="text-zinc-400 font-semibold uppercase tracking-wider text-[8px]">LOG-PROCESSOR v1.02</span>
+        <div className="w-full h-full bg-slate-950 flex flex-col p-4 text-white font-sans select-none relative overflow-hidden">
+          {/* Header Bar */}
+          <div className="flex justify-between items-center border-b border-slate-800 pb-2 mb-2.5">
+            <span className="text-[10px] font-bold text-cyan-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              Developer Portfolio
+            </span>
+            <div className="flex items-center gap-1.5 text-[8px] bg-cyan-500/10 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/20 font-mono">
+              React 19 • Vite • Live
+            </div>
           </div>
-          {/* Mock scrolling CLI logger */}
-          <div className="space-y-1.5 overflow-hidden flex-1 flex flex-col justify-end">
-            <div><span className="text-zinc-500">[17:20:10.051]</span> <span className="text-indigo-400">INFO</span> Initiating thread pool size 32...</div>
-            <div><span className="text-zinc-500">[17:20:10.125]</span> <span className="text-emerald-400">INFO</span> Connected logs PostgreSQL buffer db.</div>
-            <div><span className="text-zinc-500">[17:20:10.334]</span> <span className="text-yellow-400">WARN</span> Thread-22 buffer backlog exceeds 80%. Splitting task...</div>
-            <div><span className="text-zinc-500">[17:20:10.450]</span> <span className="text-emerald-400">SUCCESS</span> Processed 104,250 server records in 980ms.</div>
-            <div className="text-white animate-pulse">_</div>
+          {/* Hero & Command Palette Mini Simulation */}
+          <div className="flex-1 flex flex-col justify-between bg-slate-900/60 rounded-xl p-3 border border-slate-800/80">
+            {/* Command Palette Mockup */}
+            <div className="flex items-center justify-between bg-slate-950/80 px-2.5 py-1.5 rounded-lg border border-slate-800 text-[8px] text-slate-400 font-mono">
+              <span className="text-cyan-400">⌘K Quick Navigation</span>
+              <span className="bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[7px]">Ctrl + K</span>
+            </div>
+            {/* Live Metrics Grid */}
+            <div className="grid grid-cols-3 gap-1.5 py-1">
+              <div className="bg-slate-800/60 p-1 rounded text-center border border-slate-700/30">
+                <span className="text-[6.5px] text-slate-400 uppercase block">Projects</span>
+                <span className="text-[8.5px] font-bold text-cyan-400 font-mono">3 Active</span>
+              </div>
+              <div className="bg-slate-800/60 p-1 rounded text-center border border-slate-700/30">
+                <span className="text-[6.5px] text-slate-400 uppercase block">GitHub</span>
+                <span className="text-[8.5px] font-bold text-emerald-400 font-mono">Real-time</span>
+              </div>
+              <div className="bg-slate-800/60 p-1 rounded text-center border border-slate-700/30">
+                <span className="text-[6.5px] text-slate-400 uppercase block">LeetCode</span>
+                <span className="text-[8.5px] font-bold text-amber-400 font-mono">Live API</span>
+              </div>
+            </div>
+            {/* Theme & Performance banner */}
+            <div className="flex items-center justify-between text-[7px] text-slate-400 pt-1 border-t border-slate-800/60 font-mono">
+              <span>Dark / Light System</span>
+              <span className="text-cyan-400">100% Responsive</span>
+            </div>
           </div>
         </div>
       );
@@ -163,7 +242,7 @@ export const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
-  const categories = ['All', 'Full Stack', 'MERN', 'Open Source', 'Java', 'UI/UX'];
+  const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
 
   // Filter projects matching search and categories
   const filteredProjects = projects.filter((proj) => {
@@ -406,15 +485,17 @@ export const Projects: React.FC = () => {
                     <Github className="w-4 h-4" />
                     Source Code
                   </a>
-                  <a
-                    href={selectedProject.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-lightAccent dark:bg-darkAccent text-white font-medium text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-lightAccent/10 hover:shadow-lightAccent/20 hover:bg-lightAccent/90 dark:hover:bg-darkAccent/90 transition-all"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Live Demo
-                  </a>
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-lightAccent dark:bg-darkAccent text-white font-medium text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-lightAccent/10 hover:shadow-lightAccent/20 hover:bg-lightAccent/90 dark:hover:bg-darkAccent/90 transition-all"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Live Demo
+                    </a>
+                  )}
                 </div>
               </motion.div>
             </div>

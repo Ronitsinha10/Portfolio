@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GitPullRequest, GitFork, GitMerge, Star, Terminal } from 'lucide-react';
+import { GitPullRequest, GitBranch, BookOpen, Search, Users } from 'lucide-react';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { GitHubCalendar } from 'react-github-calendar';
 import { useTheme } from '../context/ThemeContext';
@@ -8,11 +8,27 @@ import { useTheme } from '../context/ThemeContext';
 export const OpenSource: React.FC = () => {
   const { theme } = useTheme();
 
-  const stats = [
-    { label: 'PRs Merged', value: 42, icon: <GitMerge className="w-4 h-4 text-emerald-500" /> },
-    { label: 'Open Issues Resolved', value: 28, icon: <Terminal className="w-4 h-4 text-cyan-500" /> },
-    { label: 'Starred Repositories', value: 180, icon: <Star className="w-4 h-4 text-amber-500" /> },
-    { label: 'Forked Contributions', value: 15, icon: <GitFork className="w-4 h-4 text-purple-500" /> }
+  const cards = [
+    { 
+      title: 'Git & GitHub', 
+      description: 'Version control and collaboration', 
+      icon: <GitBranch className="w-4 h-4 text-lightAccent dark:text-darkAccent" /> 
+    },
+    { 
+      title: 'Learning', 
+      description: 'Understanding open-source workflows', 
+      icon: <BookOpen className="w-4 h-4 text-lightAccent dark:text-darkAccent" /> 
+    },
+    { 
+      title: 'Exploring Projects', 
+      description: 'Finding projects to contribute to', 
+      icon: <Search className="w-4 h-4 text-lightAccent dark:text-darkAccent" /> 
+    },
+    { 
+      title: 'Community Learning', 
+      description: 'Learning through developer communities, code reviews, and shared projects', 
+      icon: <Users className="w-4 h-4 text-lightAccent dark:text-darkAccent" /> 
+    }
   ];
 
   return (
@@ -33,7 +49,7 @@ export const OpenSource: React.FC = () => {
 
         {/* Outer Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Block: Description & Stats Cards */}
+          {/* Left Block: Description & Cards */}
           <ScrollReveal animation="fade-left" duration={0.8} className="lg:col-span-5 space-y-6">
             <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400 font-sans leading-relaxed">
               <h3 className="font-display font-bold text-lg text-lightText dark:text-darkText flex items-center gap-2">
@@ -41,31 +57,29 @@ export const OpenSource: React.FC = () => {
                 Empowering the Community
               </h3>
               <p>
-                I strongly believe in the open-source philosophy. From fixing minor typos to optimizing core latency structures, I contribute code to public platforms to make things better for everyone.
+                I strongly believe in the open-source philosophy and the power of developers learning and building together. I&apos;m exploring open-source projects, learning collaborative development practices, and preparing to contribute to software that makes a difference.
               </p>
               <p>
-                I actively contribute to open-source projects by improving code quality, collaborating with developers, reviewing issues, and building scalable software solutions using modern development practices.
+                I&apos;m focused on understanding open-source workflows, improving my coding skills, and learning from the developer community. My goal is to start contributing through documentation improvements, bug fixes, and meaningful code enhancements while building clean, maintainable, and scalable software.
               </p>
             </div>
 
-            {/* Contribution Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat) => (
+            {/* Open Source Pillars Grid (Compact) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+              {cards.map((card) => (
                 <div
-                  key={stat.label}
-                  className="p-4 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white/50 dark:bg-gray-900/40 backdrop-blur-md flex items-center gap-3.5"
+                  key={card.title}
+                  className="p-3.5 sm:p-4 rounded-xl border border-gray-200/40 dark:border-darkBorder/60 bg-white/70 dark:bg-[#141414] shadow-sm hover:border-lightAccent/40 dark:hover:border-darkAccent/40 hover:shadow-md transition-all duration-300 flex flex-col justify-start"
                 >
-                  <div className="p-2 rounded bg-gray-100 dark:bg-gray-800">
-                    {stat.icon}
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-[#1f1f1f] border border-gray-200/30 dark:border-stone-800 flex items-center justify-center mb-2.5 text-lightAccent dark:text-darkAccent">
+                    {card.icon}
                   </div>
-                  <div>
-                    <p className="font-display font-extrabold text-lg text-lightText dark:text-darkText leading-none">
-                      {stat.value}
-                    </p>
-                    <span className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 font-sans tracking-wide uppercase mt-1 inline-block">
-                      {stat.label}
-                    </span>
-                  </div>
+                  <h4 className="font-display font-bold text-xs sm:text-sm text-lightText dark:text-darkHeading mb-1">
+                    {card.title}
+                  </h4>
+                  <p className="text-[11px] text-gray-500 dark:text-stone-400 font-sans leading-relaxed">
+                    {card.description}
+                  </p>
                 </div>
               ))}
             </div>

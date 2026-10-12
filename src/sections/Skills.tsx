@@ -20,12 +20,12 @@ export const Skills: React.FC = () => {
       icon: <Server className="w-4 h-4 text-gray-500 dark:text-stone-400 group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors duration-300" /> 
     },
     { 
-      id: 'Database', 
-      name: 'Database', 
+      id: 'Databases', 
+      name: 'Databases', 
       icon: <Database className="w-4 h-4 text-gray-500 dark:text-stone-400 group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors duration-300" /> 
     },
     { 
-      id: 'Tools', 
+      id: 'Tools & Technologies', 
       name: 'Tools & Technologies', 
       icon: <Terminal className="w-4 h-4 text-gray-500 dark:text-stone-400 group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors duration-300" /> 
     }
@@ -51,9 +51,17 @@ export const Skills: React.FC = () => {
         <ScrollReveal animation="scale-in" duration={0.8} delay={0.1}>
           <div className="rounded-3xl border border-gray-200/50 dark:border-darkBorder bg-white dark:bg-darkCard shadow-sm p-6 sm:p-8 space-y-6 sm:space-y-8">
             {categories.map((cat, idx) => {
-              const catSkills = skills.filter(
-                (s) => s.category.toLowerCase() === cat.id.toLowerCase()
-              );
+              const catSkills = skills.filter((s) => {
+                const sCat = s.category.toLowerCase();
+                const cId = cat.id.toLowerCase();
+                const cName = cat.name.toLowerCase();
+                return (
+                  sCat === cId ||
+                  sCat === cName ||
+                  (cId.startsWith('database') && sCat.startsWith('database')) ||
+                  (cId.startsWith('tool') && sCat.startsWith('tool'))
+                );
+              });
 
               return (
                 <div 

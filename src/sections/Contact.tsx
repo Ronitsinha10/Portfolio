@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, Send, Loader2, CheckCircle } from 'lucide-react';
-import { Github, Linkedin, Twitter } from '../components/SocialIcons';
+import { Github, Linkedin, X } from '../components/SocialIcons';
 import confetti from 'canvas-confetti';
 import { portfolioData } from '../data/portfolioData';
 import { ScrollReveal } from '../components/ScrollReveal';
@@ -26,15 +26,29 @@ export const Contact: React.FC = () => {
     formState: { errors }
   } = useForm<ContactFormData>();
 
-  const onSubmit = (_data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormData) => {
     setIsLoading(true);
-    
-    // Simulate API network submission request
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/ronitsinha177@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          _subject: `[Portfolio Contact] ${data.subject}`,
+          message: data.message
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
       setIsSuccess(true);
-      
-      // Blast premium confetti!
       confetti({
         particleCount: 120,
         spread: 70,
@@ -42,12 +56,30 @@ export const Contact: React.FC = () => {
         colors: ['#6366F1', '#a855f7', '#06b6d4', '#10b981']
       });
 
-      // Reset form fields
       reset();
-
-      // Clear success banner after 5 seconds
       setTimeout(() => setIsSuccess(false), 5000);
-    }, 1600);
+    } catch {
+      // Fallback: open mail client prefilled with ronitsinha177@gmail.com
+      const mailtoUrl = `mailto:ronitsinha177@gmail.com?subject=${encodeURIComponent(
+        `[Portfolio Contact] ${data.subject}`
+      )}&body=${encodeURIComponent(
+        `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`
+      )}`;
+      window.open(mailtoUrl, '_blank');
+
+      setIsSuccess(true);
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#6366F1', '#a855f7', '#06b6d4', '#10b981']
+      });
+
+      reset();
+      setTimeout(() => setIsSuccess(false), 5000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -135,13 +167,13 @@ export const Contact: React.FC = () => {
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a
-                  href={socials.twitter}
+                  href={socials.x}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300"
-                  title="Twitter/X"
+                  title="X"
                 >
-                  <Twitter className="w-4 h-4" />
+                  <X className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -207,7 +239,7 @@ export const Contact: React.FC = () => {
                         required: 'Email is required',
                         pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, message: 'Invalid email format' }
                       })}
-                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-955 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium"
+                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-950 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium"
                     />
                     {errors.email && <span className="text-[10px] text-red-500">{errors.email.message}</span>}
                   </div>
@@ -219,7 +251,7 @@ export const Contact: React.FC = () => {
                     type="text"
                     placeholder="Project Inquiry / Job Opportunity"
                     {...register('subject', { required: 'Subject is required', minLength: { value: 5, message: 'Minimum 5 characters' } })}
-                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-955 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium"
+                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-950 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium"
                   />
                   {errors.subject && <span className="text-[10px] text-red-500">{errors.subject.message}</span>}
                 </div>
@@ -230,7 +262,7 @@ export const Contact: React.FC = () => {
                     rows={4}
                     placeholder="Describe your goals, timelines, or role details..."
                     {...register('message', { required: 'Message content is required', minLength: { value: 10, message: 'Minimum 10 characters' } })}
-                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-955 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-950 focus:border-lightAccent dark:focus:border-darkAccent outline-none text-lightText dark:text-darkText font-medium resize-none"
                   />
                   {errors.message && <span className="text-[10px] text-red-500">{errors.message.message}</span>}
                 </div>

@@ -139,16 +139,12 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                         Coding Profiles
                       </h2>
                       <div className="flex flex-col gap-2 font-mono text-[10px]">
-                        <a href="https://github.com/Ronitsinha10" target="_blank" rel="noreferrer" className="flex items-center justify-between text-lightAccent hover:underline">
+                        <a href={portfolioData.personalInfo.socials.github} target="_blank" rel="noreferrer" className="flex items-center justify-between text-lightAccent hover:underline">
                           <span>GitHub</span>
                           <ExternalLink className="w-3 h-3" />
                         </a>
-                        <a href="https://leetcode.com/ronitsinha" target="_blank" rel="noreferrer" className="flex items-center justify-between text-lightAccent hover:underline">
-                          <span>LeetCode (Knight)</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                        <a href="https://codeforces.com/profile/ronitsinha" target="_blank" rel="noreferrer" className="flex items-center justify-between text-lightAccent hover:underline">
-                          <span>Codeforces</span>
+                        <a href={portfolioData.personalInfo.socials.leetcode} target="_blank" rel="noreferrer" className="flex items-center justify-between text-lightAccent hover:underline">
+                          <span>LeetCode</span>
                           <ExternalLink className="w-3 h-3" />
                         </a>
                       </div>

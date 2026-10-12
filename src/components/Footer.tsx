@@ -1,6 +1,6 @@
 import React from 'react';
-import { Mail, Code2, Globe } from 'lucide-react';
-import { Github, Linkedin, Twitter } from './SocialIcons';
+import { Mail, Code2 } from 'lucide-react';
+import { Github, Linkedin, X } from './SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 
 export const Footer: React.FC = () => {
@@ -69,14 +69,11 @@ export const Footer: React.FC = () => {
           <a href={socials.linkedin} target="_blank" rel="noreferrer" className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
             <Linkedin className="w-4 h-4" />
           </a>
-          <a href={socials.twitter} target="_blank" rel="noreferrer" className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
-            <Twitter className="w-4 h-4" />
+          <a href={socials.x} target="_blank" rel="noreferrer" title="X" className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
+            <X className="w-4 h-4" />
           </a>
           <a href={socials.leetcode} target="_blank" rel="noreferrer" className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
             <Code2 className="w-4 h-4" />
-          </a>
-          <a href={socials.codeforces} target="_blank" rel="noreferrer" className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
-            <Globe className="w-4 h-4" />
           </a>
           <a href={socials.email} className="hover:text-lightAccent dark:hover:text-darkAccent transition-colors">
             <Mail className="w-4 h-4" />

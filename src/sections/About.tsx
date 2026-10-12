@@ -3,6 +3,9 @@ import { useInView } from 'framer-motion';
 import { BookOpen, Compass, Heart } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '../components/ScrollReveal';
+import { useGitHubContributions } from '../hooks/useGitHubContributions';
+import { useGitHubRepos } from '../hooks/useGitHubRepos';
+import { useLeetCodeStats } from '../hooks/useLeetCodeStats';
 
 const AnimatedCounter: React.FC<{ value: number; suffix?: string; duration?: number }> = ({ 
   value, 
@@ -47,22 +50,25 @@ const AnimatedCounter: React.FC<{ value: number; suffix?: string; duration?: num
 
 export const About: React.FC = () => {
   const { stats } = portfolioData;
+  const { contributions: ghContributions, loading: ghLoading, error: ghError } = useGitHubContributions();
+  const { repos: ghRepos, loading: reposLoading, error: reposError } = useGitHubRepos();
+  const { solved: leetCodeSolved, loading: leetCodeLoading, error: leetCodeError } = useLeetCodeStats();
 
   const cards = [
     {
       icon: <BookOpen className="w-5 h-5 text-indigo-500" />,
       title: 'Academic Path',
-      description: 'Pursuing a Bachelor of Technology in Computer Science & Engineering. Maintaining an aggregate CGPA of 9.1/10 while diving deep into system structures and algorithms.',
+      description: 'Pursuing a Bachelor of Technology in Computer Science & Engineering, building a strong academic foundation in computing principles and exploring the evolving world of technology and software engineering.',
     },
     {
       icon: <Compass className="w-5 h-5 text-purple-500" />,
       title: 'Career Journey',
-      description: 'Progressed from writing basic scripts to engineering modern full-stack applications, building scalable web solutions, and contributing to open-source projects through GitHub collaboration.',
+      description: 'Progressed from writing basic scripts to developing full-stack web applications, exploring AI integration, and continuously improving my software development skills through hands-on projects and GitHub collaboration.',
     },
     {
       icon: <Heart className="w-5 h-5 text-rose-500" />,
       title: 'Core Philosophy',
-      description: 'Focusing on clean, readable codebases, responsive design aesthetics, high concurrency standards, and sharing knowledge through developer community networks.',
+      description: 'Focusing on clean, readable codebases, responsive design aesthetics, practical AI integration, efficient and scalable systems, and knowledge sharing within the developer community.',
     },
   ];
 
@@ -92,10 +98,10 @@ export const About: React.FC = () => {
                   Hi, I'm Ronit Sinha. I engineer solutions.
                 </h3>
                 <p>
-                  I am a dedicated Computer Science student and software engineer who thrives at the intersection of developer experience, system design, and open-source software. With a strong foundation in data structures, concurrent patterns, and database layouts, I enjoy building tools that solve real problems.
+                  I'm a Computer Science student and aspiring full-stack developer passionate about building modern web applications and exploring AI integration. I enjoy working with the MERN stack, experimenting with AI-powered solutions, and strengthening my understanding of software architecture, design patterns, and core software engineering principles.
                 </p>
                 <p>
-                  My journey took a major leap forward when I started contributing to open-source project ecosystems under The Linux Foundation. Working on production-level architectures, I learned how to coordinate with global teams, perform systematic refactoring, and maintain code standards.
+                  I'm constantly learning, building projects, and exploring new technologies to write clean, efficient, and maintainable code. My goal is to turn creative ideas into practical solutions and grow as a software engineer.
                 </p>
               </div>
             </ScrollReveal>
@@ -103,12 +109,62 @@ export const About: React.FC = () => {
             {/* Stats Counters Grid */}
             <ScrollStagger className="grid grid-cols-2 gap-4">
               {stats.map((stat) => {
+                const isContributions = stat.label === 'GitHub Contributions';
+                const isRepos = stat.label === 'GitHub Repositories';
+                const isLeetCode = stat.label === 'Coding Problems Solved';
                 let suffix = '+';
                 if (stat.label.includes('Solved')) suffix = '+';
                 return (
                   <ScrollStaggerItem key={stat.label} animation="scale-in">
                     <div className="p-5 rounded-2xl border border-gray-200/20 dark:border-gray-800/80 bg-white/50 dark:bg-gray-900/40 backdrop-blur-md flex flex-col gap-1.5">
-                      <AnimatedCounter value={stat.value} suffix={suffix} />
+                      {isContributions ? (
+                        ghLoading && ghContributions === null ? (
+                          <span className="font-display font-extrabold text-3xl sm:text-4xl text-lightAccent/40 dark:text-darkAccent/40 animate-pulse">
+                            ...
+                          </span>
+                        ) : ghError && ghContributions === null ? (
+                          <span
+                            className="font-display font-extrabold text-3xl sm:text-4xl text-gray-400"
+                            title="Unable to load GitHub contributions graph"
+                          >
+                            —
+                          </span>
+                        ) : (
+                          <AnimatedCounter value={ghContributions ?? 0} suffix={suffix} />
+                        )
+                      ) : isRepos ? (
+                        reposLoading && ghRepos === null ? (
+                          <span className="font-display font-extrabold text-3xl sm:text-4xl text-lightAccent/40 dark:text-darkAccent/40 animate-pulse">
+                            ...
+                          </span>
+                        ) : reposError && ghRepos === null ? (
+                          <span
+                            className="font-display font-extrabold text-3xl sm:text-4xl text-gray-400"
+                            title="Unable to load GitHub repositories"
+                          >
+                            —
+                          </span>
+                        ) : (
+                          <AnimatedCounter value={ghRepos ?? 0} suffix={suffix} />
+                        )
+                      ) : isLeetCode ? (
+                        leetCodeLoading && leetCodeSolved === null ? (
+                          <span className="font-display font-extrabold text-3xl sm:text-4xl text-lightAccent/40 dark:text-darkAccent/40 animate-pulse">
+                            ...
+                          </span>
+                        ) : leetCodeError && leetCodeSolved === null ? (
+                          <span
+                            className="font-display font-extrabold text-3xl sm:text-4xl text-gray-400"
+                            title="Unable to load LeetCode solved problems"
+                          >
+                            —
+                          </span>
+                        ) : (
+                          <AnimatedCounter value={leetCodeSolved ?? 0} suffix={suffix} />
+                        )
+                      ) : (
+                        <AnimatedCounter value={stat.value} suffix={suffix} />
+                      )}
                       <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 font-sans tracking-wide uppercase">
                         {stat.label}
                       </span>

@@ -1,7 +1,7 @@
 export interface Skill {
   name: string;
   level: number; // Percentage
-  category: 'Frontend' | 'Backend' | 'Database' | 'Tools';
+  category: 'Frontend' | 'Backend' | 'Databases' | 'Tools & Technologies' | 'Database' | 'Tools';
 }
 
 export interface ExperienceItem {
@@ -68,13 +68,70 @@ export interface BlogItem {
   link: string;
 }
 
+export const projects: ProjectItem[] = [
+  {
+    id: 'proj1',
+    title: 'BTech Resume Builder',
+    description: 'An interactive, ATS-optimized resume builder for engineering students featuring live preview, multi-theme customization, and PDF export.',
+    longDescription: 'BTech Resume Builder is a modern, client-side web application designed to help engineering students build clean, professional, and ATS-compliant resumes. It features an intuitive multi-tab form editor across contact details, education, technical skills, projects, and certifications, complete with instant live preview, multiple color themes, local storage persistence, and print/PDF export styling.',
+    category: 'UI/UX',
+    techStack: ['JavaScript', 'HTML5', 'CSS3', 'Vite', 'FontAwesome', 'LocalStorage'],
+    features: [
+      'Interactive live split-screen preview updating the resume layout in real time.',
+      'ATS-compliant resume formatting with multiple color themes (Royal Blue, Emerald, Charcoal, Indigo).',
+      'Dynamic form sections for Education, Experience, Technical Skills, Projects, and Certifications.',
+      'Client-side persistence using LocalStorage to prevent data loss across sessions.',
+      'Optimized print and 1-click PDF download styling with clean layout borders.'
+    ],
+    githubUrl: 'https://github.com/Ronitsinha10/resumebuilder',
+    liveUrl: 'https://ronitsinha10.github.io/resumebuilder/',
+    image: 'gradient-blue'
+  },
+  {
+    id: 'proj2',
+    title: 'Virtual Interview Coach',
+    description: 'An AI-powered career acceleration platform featuring real-time conversational mock interviews, ATS resume analysis, and career roadmap planning.',
+    longDescription: 'Virtual Interview Coach is a full-stack web application designed to help tech job seekers practice and excel in technical interviews. It integrates ElevenLabs real-time voice conversational agents for realistic mock interviews with instant performance feedback, automated ATS resume scoring, dynamic portfolio generation, interactive career roadmaps, and secure JWT authentication.',
+    category: 'MERN',
+    techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'ElevenLabs API', 'Tailwind CSS', 'Framer Motion', 'JWT'],
+    features: [
+      'Real-time voice conversational AI mock interviews powered by ElevenLabs API.',
+      'ATS resume analyzer providing instant match scoring and optimization tips.',
+      'Dynamic developer portfolio generator to showcase projects and skills.',
+      'Step-by-step career roadmap planner tailored for tech specializations.',
+      'Secure JWT authentication, rate limiting, and persistent MongoDB database storage.'
+    ],
+    githubUrl: 'https://github.com/Ronitsinha10/Virtual-Interview-Coach',
+    liveUrl: '',
+    image: 'gradient-purple'
+  },
+  {
+    id: 'proj3',
+    title: 'Interactive Developer Portfolio',
+    description: 'A responsive, modern personal developer portfolio built with React 19, TypeScript, and Tailwind CSS featuring dynamic GitHub & LeetCode stats.',
+    longDescription: 'A sleek, modern developer portfolio designed to showcase engineering projects, technical milestones, and live GitHub and LeetCode activity. Built with React 19, TypeScript, Vite, and Tailwind CSS, featuring physics-based Framer Motion animations, dark/light theme switching, dynamic API integrations for contribution tracking, an interactive command palette (Ctrl+K), and an ATS-ready resume viewer.',
+    category: 'UI/UX',
+    techStack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite', 'Lucide React'],
+    features: [
+      'Live API integration for real-time GitHub contributions, public repository count, and LeetCode solved statistics.',
+      'Interactive Command Palette (Ctrl+K) for instant keyboard navigation across all portfolio sections.',
+      'Fluid physics-based spring animations and micro-interactions powered by Framer Motion.',
+      'Seamless dark and light theme switching with system preference detection and localStorage persistence.',
+      'Fully responsive mobile-first architecture with custom modal overlays and clean typography.'
+    ],
+    githubUrl: 'https://github.com/Ronitsinha10/Portfolio',
+    liveUrl: 'https://portfolio-eta-one-mn0ssb0zgz.vercel.app',
+    image: 'gradient-cyan'
+  }
+];
+
 export const portfolioData = {
   personalInfo: {
     name: 'Ronit Sinha',
     title: 'Software Engineer & Open Source Enthusiast',
     tagline: 'Building next-generation full-stack applications and contributing to the future of open-source software.',
     location: 'India',
-    email: 'ronitsinha.dev@gmail.com',
+    email: 'ronitsinha177@gmail.com',
     resumeUrl: '#', // Handled via modal download trigger
     typingRoles: [
       'Full Stack Developer',
@@ -85,215 +142,112 @@ export const portfolioData = {
     ],
     socials: {
       github: 'https://github.com/Ronitsinha10',
-      linkedin: 'https://linkedin.com/in/ronitsinha',
-      twitter: 'https://twitter.com/ronitsinha_dev',
-      leetcode: 'https://leetcode.com/ronitsinha',
-      codeforces: 'https://codeforces.com/profile/ronitsinha',
-      email: 'mailto:ronitsinha.dev@gmail.com'
+      linkedin: 'https://www.linkedin.com/in/ronit-sinha-5b3b16329/',
+      x: 'https://x.com/Ronit_Sinha10',
+      twitter: 'https://x.com/Ronit_Sinha10',
+      leetcode: 'https://leetcode.com/u/IHuDORGnqv/',
+      email: 'mailto:ronitsinha177@gmail.com'
     }
   },
-  stats: [
-    { label: 'Projects Completed', value: 15 },
-    { label: 'GitHub Contributions', value: 920 },
-    { label: 'Open Source Commits', value: 120 },
-    { label: 'Coding Problems Solved', value: 680 }
-  ],
+  get stats() {
+    return [
+      { label: 'Projects Completed', value: projects.length },
+      { label: 'GitHub Contributions', value: 0 },
+      { label: 'GitHub Repositories', value: 0 },
+      { label: 'Coding Problems Solved', value: 0 }
+    ];
+  },
   skills: [
     // Frontend
     { name: 'React', level: 90, category: 'Frontend' },
-    { name: 'Next.js', level: 85, category: 'Frontend' },
-    { name: 'TypeScript', level: 88, category: 'Frontend' },
-    { name: 'Tailwind CSS', level: 95, category: 'Frontend' },
     { name: 'JavaScript', level: 92, category: 'Frontend' },
+    { name: 'TypeScript', level: 88, category: 'Frontend' },
     { name: 'HTML5', level: 90, category: 'Frontend' },
     { name: 'CSS3', level: 88, category: 'Frontend' },
+    { name: 'Tailwind CSS', level: 95, category: 'Frontend' },
     // Backend
     { name: 'Node.js', level: 88, category: 'Backend' },
     { name: 'Express.js', level: 85, category: 'Backend' },
-    { name: 'Spring Boot', level: 78, category: 'Backend' },
-    { name: 'Java', level: 82, category: 'Backend' },
     { name: 'REST APIs', level: 90, category: 'Backend' },
     // Databases
-    { name: 'MongoDB', level: 85, category: 'Database' },
-    { name: 'PostgreSQL', level: 84, category: 'Database' },
-    { name: 'MySQL', level: 80, category: 'Database' },
-    { name: 'Redis', level: 75, category: 'Database' },
-    // Tools
-    { name: 'Git', level: 92, category: 'Tools' },
-    { name: 'GitHub', level: 95, category: 'Tools' },
-    { name: 'Docker', level: 78, category: 'Tools' },
-    { name: 'Linux', level: 80, category: 'Tools' },
-    { name: 'Postman', level: 88, category: 'Tools' },
-    { name: 'AWS', level: 72, category: 'Tools' },
-    { name: 'VS Code', level: 95, category: 'Tools' }
+    { name: 'MongoDB', level: 85, category: 'Databases' },
+    { name: 'MySQL', level: 80, category: 'Databases' },
+    // Tools & Technologies
+    { name: 'Git', level: 92, category: 'Tools & Technologies' },
+    { name: 'GitHub', level: 95, category: 'Tools & Technologies' },
+    { name: 'Docker', level: 78, category: 'Tools & Technologies' },
+    { name: 'Linux', level: 80, category: 'Tools & Technologies' },
+    { name: 'VS Code', level: 95, category: 'Tools & Technologies' }
   ] as Skill[],
   experience: [
     {
-      id: 'exp2',
-      role: 'Full Stack Software Engineer Intern',
-      company: 'InnovateTech Labs',
-      period: 'Jan 2025 - Apr 2025',
-      location: 'Bangalore, India (Hybrid)',
-      type: 'Internship',
+      id: 'exp1',
+      role: 'B.Tech in Computer Science & Engineering',
+      company: "Tula's University",
+      period: '2024–2028',
+      location: 'Dehradun, India',
+      type: 'Education',
       description: [
-        'Developed modular React microfrontends optimized for performance and responsive scaling.',
-        'Implemented scalable RESTful endpoints using Node.js/Express and MongoDB integration.',
-        'Decreased bundle loading sizes by 25% using dynamic chunking and component lazy loading.'
+        "Pursuing a Bachelor's degree in Computer Science & Engineering.",
+        'Building a strong academic foundation in computer science and software engineering.',
+        'Exploring modern technologies and continuously expanding my technical knowledge.'
       ]
     },
     {
       id: 'exp3',
-      role: 'Freelance Full Stack Web Developer',
-      company: 'Independent Contracts',
-      period: 'Jun 2024 - Dec 2024',
+      role: 'Full-Stack Development Projects',
+      company: 'Personal Projects',
+      period: '2025 – Present',
       location: 'Remote',
       type: 'Freelance',
       description: [
-        'Designed custom SaaS landing pages and full-featured ecommerce modules for multiple startups.',
-        'Built interactive portals using React, Tailwind CSS, Framer Motion, and Stripe checkout services.',
-        'Boosted search engine optimization (SEO) rankings, increasing client web traffic by 40%.'
+        'Developing web applications using the MERN stack.',
+        'Building responsive user interfaces and integrating backend APIs.',
+        'Exploring AI integration to create smarter, more useful applications.'
       ]
     },
     {
       id: 'exp4',
-      role: 'B.Tech in Computer Science & Engineering',
-      company: 'Technical University',
-      period: '2022 - 2026 (Expected)',
-      location: 'India',
-      type: 'Education',
+      role: 'Exploring AI Integration',
+      company: 'Personal Learning',
+      period: '2026 – Present',
+      location: 'Remote',
+      type: 'Open Source',
       description: [
-        'Specializing in Data Structures, Algorithms, DBMS, Operating Systems, and Web Engineering.',
-        'Maintaining a strong academic standing (CGPA: 9.1/10).',
-        'Lead developer for the annual Hackathon Organization Management Portal.'
+        'Exploring AI APIs and integrating AI capabilities into web applications.',
+        'Learning how to build intelligent, AI-powered software solutions.',
+        'Experimenting with AI tools to enhance application functionality.'
       ]
     }
   ] as ExperienceItem[],
-  projects: [
-    {
-      id: 'proj1',
-      title: 'DevSphere SaaS Platform',
-      description: 'A cloud-based real-time collaborative workspace for developer teams to plan, design, and write documentation.',
-      longDescription: 'DevSphere is an end-to-end workspace mirroring Linear and Notion. It supports real-time cursor tracking, document syncing, rich text editing, and automated task pipelines with Kanban boards. Built using React, Tailwind, Socket.io, Express, and MongoDB.',
-      category: 'MERN',
-      techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Socket.io', 'Tailwind CSS', 'Framer Motion'],
-      features: [
-        'Real-time document synchronization with collaborative editor.',
-        'Interactive Kanban boards with drag-and-drop animations.',
-        'Subtle command palette (Ctrl+K) for instant keyboard shortcuts.',
-        'Comprehensive activity feeds and role-based permissions.'
-      ],
-      githubUrl: 'https://github.com/Ronitsinha10/devsphere-saas',
-      liveUrl: 'https://devsphere-workspace.vercel.app',
-      image: 'gradient-blue'
-    },
-    {
-      id: 'proj2',
-      title: 'Aura UI Design Engine',
-      description: 'An interactive, responsive UI builder component toolkit utilizing Tailwind and Framer Motion.',
-      longDescription: 'Aura UI lets users customize, live-preview, and export React-Tailwind code blocks for premium layouts, showcasing luxury typography and fluid animation effects. Built with Vite and TypeScript.',
-      category: 'UI/UX',
-      techStack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Lucide React'],
-      features: [
-        'Dynamic interactive visual controls for layouts.',
-        'Instantly copy JSX/TSX and CSS tailwind classes.',
-        'Responsiveness testing sandbox matching variable dimensions.',
-        'Custom interactive physics transitions and spring configuration tools.'
-      ],
-      githubUrl: 'https://github.com/Ronitsinha10/aura-ui-engine',
-      liveUrl: 'https://aura-ui.dev',
-      image: 'gradient-purple'
-    },
-    {
-      id: 'proj3',
-      title: 'Distributed Logs Processor',
-      description: 'A lightning-fast, concurrent CLI and server logs parsing architecture written in Java.',
-      longDescription: 'A custom distributed processing engine utilizing Java Virtual Threads (Project Loom) to slice, parse, and filter terrabytes of web server logs concurrently. Integrates a Spring Boot statistics endpoint dashboard.',
-      category: 'Java',
-      techStack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'Linux CLI'],
-      features: [
-        'Concurrently processes over 100,000 logs per second on consumer hardware.',
-        'Leverages Java virtual threads for light concurrent processes.',
-        'Robust metrics dashboard exposing server requests, error thresholds, and system loads.',
-        'Docker-compose deployment orchestrator for database and service instances.'
-      ],
-      githubUrl: 'https://github.com/Ronitsinha10/concurrent-log-processor',
-      liveUrl: 'https://log-metrics.ronitsinha.dev',
-      image: 'gradient-orange'
-    },
-    {
-      id: 'proj4',
-      title: 'OpenGit Contribution Visualizer',
-      description: 'A tool parsing GitHub APIs to render interactive 3D graphs and progress indicators of open-source contributions.',
-      longDescription: 'An analytical dashboard visualizing user pull requests, open commits, and issues resolved with stunning charts and animations.',
-      category: 'Open Source',
-      techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Lucide React', 'GitHub GraphQL API'],
-      features: [
-        'Authenticates and pulls authentic contribution histories.',
-        'Stunning layouts built with responsive SVG and HSL gradient mappings.',
-        'Tracks active repository progress and details of accepted pull requests.'
-      ],
-      githubUrl: 'https://github.com/Ronitsinha10/opengit-visuals',
-      liveUrl: 'https://opengit-viz.dev',
-      image: 'gradient-emerald'
-    },
-    {
-      id: 'proj5',
-      title: 'Nova Commerce Hub',
-      description: 'Full stack digital storefront and customer admin portal featuring a Stripe micro-checkout integration.',
-      longDescription: 'Nova is a modern B2C ecommerce system. It includes complex dashboarding, product inventory charts, secure user management, and seamless multi-step checkouts. Built using React, Express, MongoDB, and Tailwind.',
-      category: 'Full Stack',
-      techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe API', 'Tailwind CSS', 'Chart.js'],
-      features: [
-        'Seamless integration with the Stripe checkout flow.',
-        'Interactive analytics dashboard displaying sales statistics.',
-        'Optimized responsive grid interface with sorting, tagging, and filtering controls.'
-      ],
-      githubUrl: 'https://github.com/Ronitsinha10/nova-hub',
-      liveUrl: 'https://nova-commerce.dev',
-      image: 'gradient-cyan'
-    }
-  ] as ProjectItem[],
+  projects,
   codingProfiles: [
     {
       platform: 'GitHub',
       username: 'Ronitsinha10',
       rating: 'Active Contributor',
-      rank: 'Top 5%',
-      solvedCount: 920,
-      maxSolvedCount: 1000,
+      rank: 'Active Contributor',
+      solvedCount: 9,
+      maxSolvedCount: 50,
       link: 'https://github.com/Ronitsinha10',
       stats: [
-        { label: 'Repositories', value: 42 },
-        { label: 'Stars Earned', value: 180 },
-        { label: 'Followers', value: 85 }
+        { label: 'Repositories', value: 3 },
+        { label: 'Stars Earned', value: 3 },
+        { label: 'Followers', value: 1 }
       ]
     },
     {
       platform: 'LeetCode',
-      username: 'ronit_sinha_99',
-      rating: '1854 Rating (Knight)',
-      rank: 'Top 4.2%',
-      solvedCount: 680,
-      maxSolvedCount: 1500,
-      link: 'https://leetcode.com/ronit_sinha_99',
+      username: 'IHuDORGnqv',
+      rating: 'Problem Solver',
+      rank: 'Active Solver',
+      solvedCount: 0,
+      maxSolvedCount: 50,
+      link: 'https://leetcode.com/u/IHuDORGnqv/',
       stats: [
-        { label: 'Easy Solved', value: 210 },
-        { label: 'Medium Solved', value: 380 },
-        { label: 'Hard Solved', value: 90 }
-      ]
-    },
-    {
-      platform: 'Codeforces',
-      username: 'ronitsinha',
-      rating: '1382 Rating (Pupil)',
-      rank: 'Specialist Path',
-      solvedCount: 120,
-      maxSolvedCount: 500,
-      link: 'https://codeforces.com/profile/ronitsinha',
-      stats: [
-        { label: 'Max Rating', value: 1395 },
-        { label: 'Contests Done', value: 24 },
-        { label: 'Rank', value: 'Pupil' }
+        { label: 'Easy Solved', value: 0 },
+        { label: 'Medium Solved', value: 0 },
+        { label: 'Hard Solved', value: 0 }
       ]
     }
   ] as CodingProfile[],
