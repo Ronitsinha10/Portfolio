@@ -31,6 +31,49 @@ export const OpenSource: React.FC = () => {
     }
   ];
 
+  // Ensure the current month is always fully represented so react-activity-calendar
+  // does not filter out the current month label (which requires >= 3 weeks).
+  // Automatically pads with empty days through the end of the current month.
+  const padToCurrentMonthEnd = (
+    data: Array<{ date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }>
+  ) => {
+    if (!data || data.length === 0) return data;
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    // Last day of current month (e.g. Oct 31, Nov 30)
+    const endOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+    const existingDates = new Set(data.map((d) => d.date));
+    const lastItem = data[data.length - 1];
+    const lastDate = new Date(lastItem.date + 'T00:00:00');
+
+    const extra: Array<{ date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }> = [];
+    if (lastDate < endOfMonth) {
+      const cursor = new Date(lastDate);
+      cursor.setDate(cursor.getDate() + 1);
+
+      while (cursor <= endOfMonth) {
+        const yearStr = cursor.getFullYear();
+        const monthStr = String(cursor.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(cursor.getDate()).padStart(2, '0');
+        const dateStr = `${yearStr}-${monthStr}-${dayStr}`;
+
+        if (!existingDates.has(dateStr)) {
+          extra.push({
+            date: dateStr,
+            count: 0,
+            level: 0,
+          });
+        }
+        cursor.setDate(cursor.getDate() + 1);
+      }
+    }
+
+    return [...data, ...extra];
+  };
+
   return (
     <section id="opensource" className="py-24 px-6 relative">
       <div className="max-w-7xl mx-auto">
@@ -110,7 +153,7 @@ export const OpenSource: React.FC = () => {
 
               {/* Grid Scroll container */}
               <div className="overflow-x-auto pb-2 relative select-none calendar-scrollbar">
-                <div className="min-w-[960px] flex justify-center">
+                <div className="w-max min-w-full flex justify-center">
                   <GitHubCalendar 
                     username="Ronitsinha10"
                     colorScheme={theme}
@@ -120,6 +163,7 @@ export const OpenSource: React.FC = () => {
                     }}
                     blockSize={15}
                     blockMargin={3}
+                    transformData={padToCurrentMonthEnd}
                   />
                 </div>
               </div>

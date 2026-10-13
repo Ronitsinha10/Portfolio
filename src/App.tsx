@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { CustomCursor } from './components/CustomCursor';
-import { Preloader } from './components/Preloader';
 import { ProgressBar } from './components/ProgressBar';
 import { BackToTop } from './components/BackToTop';
 import { Navbar } from './components/Navbar';
@@ -17,18 +16,15 @@ import { Skills } from './sections/Skills';
 import { Experience } from './sections/Experience';
 import { Projects } from './sections/Projects';
 import { OpenSource } from './sections/OpenSource';
-import { Achievements } from './sections/Achievements';
-import { CodingProfiles } from './sections/CodingProfiles';
-import { Services } from './sections/Services';
-import { Testimonials } from './sections/Testimonials';
-import { Blog } from './sections/Blog';
+import { MyPresence } from './sections/Achievements';
+// import { Testimonials } from './sections/Testimonials';
+// import { Blog } from './sections/Blog';
 import { Contact } from './sections/Contact';
 
 // Confetti for Easter Egg
 import confetti from 'canvas-confetti';
 
 const AppContent: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [typedSequence, setTypedSequence] = useState('');
   const [isEasterEggActive, setIsEasterEggActive] = useState(false);
@@ -80,10 +76,6 @@ const AppContent: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [typedSequence]);
 
-  if (isLoading) {
-    return <Preloader onComplete={() => setIsLoading(false)} />;
-  }
-
   return (
     <div className={`min-h-screen relative selection:bg-lightAccent/20 dark:selection:bg-darkAccent/30 ${isEasterEggActive ? 'rainbow-accent-mode' : ''}`}>
       {/* Visual background layers */}
@@ -106,11 +98,9 @@ const AppContent: React.FC = () => {
         <Experience />
         <Projects />
         <OpenSource />
-        <Achievements />
-        <CodingProfiles />
-        <Services />
-        <Testimonials />
-        <Blog />
+        <MyPresence />
+        {/* <Testimonials /> */}
+        {/* <Blog /> */}
         <Contact />
       </main>
 

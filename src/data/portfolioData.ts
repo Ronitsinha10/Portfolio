@@ -241,11 +241,11 @@ export const portfolioData = {
       username: 'IHuDORGnqv',
       rating: 'Problem Solver',
       rank: 'Active Solver',
-      solvedCount: 0,
+      solvedCount: 1,
       maxSolvedCount: 50,
       link: 'https://leetcode.com/u/IHuDORGnqv/',
       stats: [
-        { label: 'Easy Solved', value: 0 },
+        { label: 'Easy Solved', value: 1 },
         { label: 'Medium Solved', value: 0 },
         { label: 'Hard Solved', value: 0 }
       ]

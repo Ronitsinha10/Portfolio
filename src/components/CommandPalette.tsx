@@ -33,7 +33,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
     { label: 'Experience', id: 'experience' },
     { label: 'Projects', id: 'projects' },
     { label: 'Open Source', id: 'opensource' },
-    { label: 'Achievements', id: 'achievements' },
+    { label: 'My Presence', id: 'mypresence' },
     { label: 'Blog', id: 'blog' },
     { label: 'Contact', id: 'contact' },
   ];

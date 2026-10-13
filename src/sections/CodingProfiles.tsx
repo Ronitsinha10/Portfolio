@@ -65,7 +65,12 @@ export const CodingProfiles: React.FC = () => {
   const { codingProfiles, personalInfo } = portfolioData;
   const { contributions: ghContributions } = useGitHubContributions();
   const { repos: ghRepos } = useGitHubRepos();
-  const { solved: leetCodeSolved } = useLeetCodeStats();
+  const { 
+    solved: leetCodeSolved,
+    easySolved: leetCodeEasy,
+    mediumSolved: leetCodeMedium,
+    hardSolved: leetCodeHard
+  } = useLeetCodeStats();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const extractGitHubUsername = (url: string) => {
@@ -161,6 +166,18 @@ export const CodingProfiles: React.FC = () => {
             const effectiveStats = profile.stats.map((st) => {
               if (isGitHub && st.label.toLowerCase() === 'repositories' && ghRepos !== null) {
                 return { ...st, value: ghRepos };
+              }
+              if (isLeetCode) {
+                const label = st.label.toLowerCase();
+                if (label.includes('easy') && leetCodeEasy !== null) {
+                  return { ...st, value: leetCodeEasy };
+                }
+                if (label.includes('medium') && leetCodeMedium !== null) {
+                  return { ...st, value: leetCodeMedium };
+                }
+                if (label.includes('hard') && leetCodeHard !== null) {
+                  return { ...st, value: leetCodeHard };
+                }
               }
               return st;
             });

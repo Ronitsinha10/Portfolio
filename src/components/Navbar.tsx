@@ -8,24 +8,25 @@ interface NavbarProps {
   onOpenResume: () => void;
 }
 
+const NAV_ITEMS = [
+  { label: 'Home', id: 'home' },
+  { label: 'About', id: 'about' },
+  { label: 'Skills', id: 'skills' },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Projects', id: 'projects' },
+  { label: 'Open Source', id: 'opensource' },
+  { label: 'My Presence', id: 'mypresence' },
+  // { label: 'Blog', id: 'blog' },
+  { label: 'Contact', id: 'contact' },
+] as const;
+
+const SECTION_IDS = NAV_ITEMS.map((item) => item.id);
+
 export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const navItems = [
-    { label: 'Home', id: 'home' },
-    { label: 'About', id: 'about' },
-    { label: 'Skills', id: 'skills' },
-    { label: 'Experience', id: 'experience' },
-    { label: 'Projects', id: 'projects' },
-    { label: 'Open Source', id: 'opensource' },
-    { label: 'Achievements', id: 'achievements' },
-    { label: 'Blog', id: 'blog' },
-    { label: 'Contact', id: 'contact' },
-  ];
-
-  const sectionIds = navItems.map((item) => item.id);
-  const activeSection = useActiveSection(sectionIds);
+  const activeSection = useActiveSection(SECTION_IDS as unknown as string[]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,11 +38,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
   const handleNavClick = (id: string) => {
     setIsOpen(false);
+
+    if (id === 'home') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
+      const navOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
+      const offsetPosition = Math.max(0, elementPosition + window.scrollY - navOffset);
 
       window.scrollTo({
         top: offsetPosition,
@@ -77,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
         {/* Desktop Nav Items */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navItems.map((item) => {
+          {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
               <button
@@ -134,44 +144,52 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="lg:hidden border-t border-gray-200/10 dark:border-gray-800/40 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl overflow-hidden"
           >
             <nav className="flex flex-col gap-1 px-6 py-6 max-h-[80vh] overflow-y-auto">
-              {navItems.map((item, idx) => {
+              {NAV_ITEMS.map((item, idx) => {
                 const isActive = activeSection === item.id;
                 return (
-                  <motion.button
+                  <motion.div
+                    key={item.id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl font-display text-sm font-semibold transition-all cursor-pointer ${
-                      isActive 
-                        ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent border-l-4 border-lightAccent dark:border-darkAccent' 
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-900/50'
-                    }`}
+                    transition={{ delay: idx * 0.04 }}
                   >
-                    {item.label}
-                  </motion.button>
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick(item.id)}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-display text-sm font-semibold transition-all cursor-pointer ${
+                        isActive 
+                          ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent border-l-4 border-lightAccent dark:border-darkAccent' 
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-900/50'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  </motion.div>
                 );
               })}
 
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navItems.length * 0.05 }}
-                onClick={() => {
-                  setIsOpen(false);
-                  onOpenResume();
-                }}
-                className="mt-4 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-lightAccent dark:bg-darkAccent text-white text-sm font-semibold cursor-pointer shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 dark:shadow-none"
+                transition={{ delay: NAV_ITEMS.length * 0.04 }}
               >
-                <Download className="w-4 h-4" />
-                Download Resume
-              </motion.button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    onOpenResume();
+                  }}
+                  className="w-full mt-4 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-lightAccent dark:bg-darkAccent text-white text-sm font-semibold cursor-pointer shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 dark:shadow-none"
+                >
+                  <Download className="w-4 h-4" />
+                  Download Resume
+                </button>
+              </motion.div>
             </nav>
           </motion.div>
         )}

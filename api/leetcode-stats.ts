@@ -1,10 +1,17 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 
+export interface LeetCodeStatsResult {
+  totalSolved: number;
+  easySolved: number;
+  mediumSolved: number;
+  hardSolved: number;
+}
+
 /**
  * Serverless API handler (e.g., Vercel / Netlify serverless functions).
  * Queries LeetCode's official GraphQL API directly on the server (avoiding browser CORS).
  */
-export async function getLeetCodeSolvedCount(username: string): Promise<number> {
+export async function getLeetCodeStats(username: string): Promise<LeetCodeStatsResult> {
   // 1. Direct LeetCode official GraphQL query
   try {
     const response = await fetch('https://leetcode.com/graphql/', {
@@ -35,8 +42,17 @@ export async function getLeetCodeSolvedCount(username: string): Promise<number> 
       const acList = json?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
       if (Array.isArray(acList)) {
         const allItem = acList.find((item: { difficulty: string; count: number }) => item.difficulty === 'All');
+        const easyItem = acList.find((item: { difficulty: string; count: number }) => item.difficulty === 'Easy');
+        const mediumItem = acList.find((item: { difficulty: string; count: number }) => item.difficulty === 'Medium');
+        const hardItem = acList.find((item: { difficulty: string; count: number }) => item.difficulty === 'Hard');
+
         if (allItem && typeof allItem.count === 'number') {
-          return allItem.count;
+          return {
+            totalSolved: allItem.count,
+            easySolved: typeof easyItem?.count === 'number' ? easyItem.count : 0,
+            mediumSolved: typeof mediumItem?.count === 'number' ? mediumItem.count : 0,
+            hardSolved: typeof hardItem?.count === 'number' ? hardItem.count : 0
+          };
         }
       }
     }
@@ -52,10 +68,20 @@ export async function getLeetCodeSolvedCount(username: string): Promise<number> 
 
   const data = await res.json();
   if (typeof data.totalSolved === 'number') {
-    return data.totalSolved;
+    return {
+      totalSolved: data.totalSolved,
+      easySolved: typeof data.easySolved === 'number' ? data.easySolved : 0,
+      mediumSolved: typeof data.mediumSolved === 'number' ? data.mediumSolved : 0,
+      hardSolved: typeof data.hardSolved === 'number' ? data.hardSolved : 0
+    };
   }
 
   throw new Error('Invalid response received from LeetCode sources');
+}
+
+export async function getLeetCodeSolvedCount(username: string): Promise<number> {
+  const stats = await getLeetCodeStats(username);
+  return stats.totalSolved;
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
@@ -63,11 +89,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const username = url.searchParams.get('username') || 'IHuDORGnqv';
 
   try {
-    const totalSolved = await getLeetCodeSolvedCount(username);
+    const stats = await getLeetCodeStats(username);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=3600');
-    res.end(JSON.stringify({ username, totalSolved }));
+    res.end(JSON.stringify({ username, ...stats }));
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     res.statusCode = 500;

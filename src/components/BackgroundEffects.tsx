@@ -42,7 +42,7 @@ export const BackgroundEffects: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none transition-colors duration-700 bg-lightBg dark:bg-darkBg"
+      className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none transition-colors duration-300 bg-lightBg dark:bg-darkBg"
       style={{
         // Pre-initialize variables so they are centered initially
         ['--mouse-x' as any]: '50vw',
@@ -51,7 +51,7 @@ export const BackgroundEffects: React.FC = () => {
     >
       {/* 1. Grid Overlay */}
       <div 
-        className="absolute inset-0 opacity-100 transition-opacity duration-700 pointer-events-none"
+        className="absolute inset-0 opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           backgroundImage: theme === 'dark' 
             ? `linear-gradient(to right, rgba(217, 119, 6, 0.012) 1px, transparent 1px), 
@@ -64,7 +64,7 @@ export const BackgroundEffects: React.FC = () => {
 
       {/* 2. Interactive Spotlight */}
       <div
-        className="absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           background: theme === 'dark'
             ? `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(217, 119, 6, 0.025), transparent 80%)`

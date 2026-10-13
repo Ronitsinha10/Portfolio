@@ -24,6 +24,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return 'dark'; // Default to dark theme as a premium starting point
   });
 
+  const applyTheme = (newTheme: Theme) => {
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement;
+      if (newTheme === 'dark') {
+        root.classList.add('dark');
+        root.classList.remove('light');
+      } else {
+        root.classList.add('light');
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('portfolio-theme', newTheme);
+    }
+    setThemeState(newTheme);
+  };
+
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
@@ -37,11 +52,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [theme]);
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
+    applyTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
+    applyTheme(newTheme);
   };
 
   return (

@@ -21,7 +21,18 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ronit Sinha | Full Stack Developer" />
     <meta name="twitter:description" content="Building modern full-stack web applications with React, Node.js, MongoDB, and TypeScript. Explore my projects, skills, and development journey." />
-    <meta name="twitter:image" content="https://ronitsinha-portfolio.vercel.app/profile-preview.jpg" />
+    <!-- Anti-flicker theme initialization -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('portfolio-theme');
+          var theme = (saved === 'light' || saved === 'dark')
+            ? saved
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark');
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

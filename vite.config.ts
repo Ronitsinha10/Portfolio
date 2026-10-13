@@ -120,9 +120,21 @@ function statsApiPlugin(): Plugin {
               const acList = json?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
               if (Array.isArray(acList)) {
                 const allItem = acList.find((item) => item.difficulty === 'All');
+                const easyItem = acList.find((item) => item.difficulty === 'Easy');
+                const mediumItem = acList.find((item) => item.difficulty === 'Medium');
+                const hardItem = acList.find((item) => item.difficulty === 'Hard');
+
                 if (allItem && typeof allItem.count === 'number') {
                   res.setHeader('Content-Type', 'application/json');
-                  res.end(JSON.stringify({ username, totalSolved: allItem.count }));
+                  res.end(
+                    JSON.stringify({
+                      username,
+                      totalSolved: allItem.count,
+                      easySolved: typeof easyItem?.count === 'number' ? easyItem.count : 0,
+                      mediumSolved: typeof mediumItem?.count === 'number' ? mediumItem.count : 0,
+                      hardSolved: typeof hardItem?.count === 'number' ? hardItem.count : 0,
+                    })
+                  );
                   return;
                 }
               }
@@ -134,10 +146,23 @@ function statsApiPlugin(): Plugin {
           // 2. Fallback to public CORS-enabled API
           const apiRes = await fetch(`https://alfa-leetcode-api.onrender.com/userProfile/${encodeURIComponent(username)}`);
           if (apiRes.ok) {
-            const data = (await apiRes.json()) as { totalSolved?: number };
+            const data = (await apiRes.json()) as {
+              totalSolved?: number;
+              easySolved?: number;
+              mediumSolved?: number;
+              hardSolved?: number;
+            };
             if (typeof data.totalSolved === 'number') {
               res.setHeader('Content-Type', 'application/json');
-              res.end(JSON.stringify({ username, totalSolved: data.totalSolved }));
+              res.end(
+                JSON.stringify({
+                  username,
+                  totalSolved: data.totalSolved,
+                  easySolved: typeof data.easySolved === 'number' ? data.easySolved : 0,
+                  mediumSolved: typeof data.mediumSolved === 'number' ? data.mediumSolved : 0,
+                  hardSolved: typeof data.hardSolved === 'number' ? data.hardSolved : 0,
+                })
+              );
               return;
             }
           }

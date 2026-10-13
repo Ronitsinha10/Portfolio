@@ -55,6 +55,45 @@
   }
 }
 
+/* Silky-Smooth Theme Transitions (300ms) applied only to theme-dependent properties */
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  body,
+  header,
+  nav,
+  footer,
+  main,
+  section,
+  article,
+  aside,
+  dialog,
+  div,
+  span,
+  p,
+  h1, h2, h3, h4, h5, h6,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  svg,
+  svg rect,
+  svg path,
+  svg circle {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, outline-color, text-decoration-color;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
 .light {
   /* Soft amber-tinted shadows (UNCHANGED) */
   --shadow-sm: 0 1px 2px 0 rgba(245, 158, 11, 0.05);
@@ -125,6 +164,13 @@
 }
 
 /* Custom scrollbar utility for the contribution calendar */
+.calendar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+}
+.dark .calendar-scrollbar {
+  scrollbar-color: rgba(82, 82, 91, 0.4) transparent;
+}
 .calendar-scrollbar::-webkit-scrollbar {
   height: 5px;
 }
@@ -144,3 +190,21 @@
 .dark .calendar-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(82, 82, 91, 0.6);
 }
+
+/* Eliminate duplicate white browser default scrollbar inside react-activity-calendar */
+.react-activity-calendar {
+  max-width: none !important;
+}
+.react-activity-calendar__scroll-container {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.react-activity-calendar__scroll-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+

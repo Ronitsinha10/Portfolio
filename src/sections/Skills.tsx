@@ -32,7 +32,7 @@ export const Skills: React.FC = () => {
   ];
 
   return (
-    <section id="skills" className="py-16 px-6 relative bg-gray-50/50 dark:bg-darkBg transition-colors duration-700">
+    <section id="skills" className="py-16 px-6 relative bg-gray-50/50 dark:bg-darkBg transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Section Title */}
         <ScrollReveal animation="blur-in" duration={0.8}>

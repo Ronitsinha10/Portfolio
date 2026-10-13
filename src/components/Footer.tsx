@@ -24,8 +24,8 @@ export const Footer: React.FC = () => {
     { label: 'Experience', id: 'experience' },
     { label: 'Projects', id: 'projects' },
     { label: 'Open Source', id: 'opensource' },
-    { label: 'Achievements', id: 'achievements' },
-    { label: 'Blog', id: 'blog' },
+    { label: 'My Presence', id: 'mypresence' },
+    // { label: 'Blog', id: 'blog' },
     { label: 'Contact', id: 'contact' },
   ];
 
