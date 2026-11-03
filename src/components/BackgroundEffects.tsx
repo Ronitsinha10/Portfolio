@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import backgroundImage from '../assets/background-image.webp';
+import { MovingClouds } from './MovingClouds';
+import { FallingLeaves } from './FallingLeaves';
 
 /**
  * PARALLAX INTENSITY MULTIPLIER
@@ -77,7 +79,10 @@ export const BackgroundEffects: React.FC = () => {
         }}
       />
 
-      {/* 3. Subtle Dark Gradient Overlay for text readability */}
+      {/* 3. Cinematic Moving Clouds (Background & Foreground Layers) */}
+      <MovingClouds />
+
+      {/* 4. Subtle Dark Gradient Overlay for text readability */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -86,7 +91,7 @@ export const BackgroundEffects: React.FC = () => {
         }}
       />
 
-      {/* 4. Ambient Charcoal & Warm Amber Glow (Harmonizes with sunset & theme) */}
+      {/* 5. Ambient Charcoal & Warm Amber Glow (Harmonizes with sunset & theme) */}
       <div
         className="absolute inset-0 pointer-events-none mix-blend-soft-light opacity-30"
         style={{
@@ -94,6 +99,9 @@ export const BackgroundEffects: React.FC = () => {
             'radial-gradient(ellipse at 85% 35%, rgba(217, 119, 6, 0.4) 0%, transparent 65%)',
         }}
       />
+
+      {/* 6. Subtle Falling Autumn Leaves (Drifting from left tree canopy) */}
+      <FallingLeaves />
     </div>
   );
 };

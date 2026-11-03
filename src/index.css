@@ -379,3 +379,325 @@
   height: 0 !important;
 }
 
+/* ==========================================================================
+   CINEMATIC MOVING CLOUDS ANIMATION
+   ========================================================================== */
+@keyframes cloudDriftRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+@keyframes cloudDriftLeft {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.cloud-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Stream 1: High Atmosphere (Upper Sky) */
+.cloud-layer-high {
+  top: 1%;
+  height: 280px;
+  opacity: 0.65;
+}
+
+/* Stream 2: Mid-Sky Peaks (Horizon Level) */
+.cloud-layer-mid {
+  top: 22%;
+  height: 320px;
+  opacity: 0.85;
+}
+
+/* Stream 3: Valley & Island Mist (Lower Chasm & Floating Island Realm) */
+.cloud-layer-low {
+  top: 50%;
+  height: 280px;
+  opacity: 0.60;
+}
+
+/* Stream 4: Atmospheric Cross-Drift Wisps (Transition Zone) */
+.cloud-layer-wisp {
+  top: 36%;
+  height: 260px;
+  opacity: 0.65;
+}
+
+.cloud-track-high {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: cloudDriftRight 20s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.cloud-track-mid {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: cloudDriftLeft 13s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.cloud-track-low {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: cloudDriftRight 17s linear -8s infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.cloud-track-wisp {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: cloudDriftLeft 15s linear -5s infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.cloud-half {
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .cloud-layer-high {
+    top: 1%;
+    height: 220px;
+    opacity: 0.55;
+  }
+  .cloud-layer-low {
+    top: 40%;
+    height: 240px;
+    opacity: 0.50;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-track-high,
+  .cloud-track-mid,
+  .cloud-track-low,
+  .cloud-track-wisp {
+    animation: none !important;
+  }
+  .leaf-item {
+    display: none !important;
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   FALLING AUTUMN LEAVES ANIMATION (Source: Left Tree Canopy)
+   ========================================================================== */
+.leaf-item {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+@keyframes leafDriftA {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) rotateY(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  25% {
+    transform: translate3d(45px, 110px, 0) rotate(35deg) rotateY(80deg);
+  }
+  50% {
+    transform: translate3d(105px, 250px, 0) rotate(15deg) rotateY(190deg);
+  }
+  75% {
+    transform: translate3d(180px, 410px, 0) rotate(55deg) rotateY(280deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(260px, 570px, 0) rotate(85deg) rotateY(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDriftB {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(15deg) rotateY(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.75;
+  }
+  30% {
+    transform: translate3d(70px, 130px, 0) rotate(-20deg) rotateY(120deg);
+  }
+  55% {
+    transform: translate3d(130px, 270px, 0) rotate(30deg) rotateY(210deg);
+  }
+  80% {
+    transform: translate3d(215px, 440px, 0) rotate(-10deg) rotateY(310deg);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(310px, 610px, 0) rotate(45deg) rotateY(420deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDriftC {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-10deg) rotateX(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  28% {
+    transform: translate3d(35px, 140px, 0) rotate(40deg) rotateX(100deg);
+  }
+  52% {
+    transform: translate3d(85px, 290px, 0) rotate(-15deg) rotateX(200deg);
+  }
+  78% {
+    transform: translate3d(150px, 460px, 0) rotate(30deg) rotateX(300deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(220px, 630px, 0) rotate(70deg) rotateX(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDriftD {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(5deg) rotateY(0deg);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.75;
+  }
+  32% {
+    transform: translate3d(85px, 120px, 0) rotate(50deg) rotateY(140deg);
+  }
+  60% {
+    transform: translate3d(175px, 260px, 0) rotate(10deg) rotateY(240deg);
+  }
+  82% {
+    transform: translate3d(260px, 430px, 0) rotate(65deg) rotateY(330deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(360px, 590px, 0) rotate(110deg) rotateY(450deg);
+    opacity: 0;
+  }
+}
+
+.leaf-a { animation: leafDriftA linear infinite; }
+.leaf-b { animation: leafDriftB linear infinite; }
+.leaf-c { animation: leafDriftC linear infinite; }
+.leaf-d { animation: leafDriftD linear infinite; }
+
+/* Left-Flank Trajectories: Tightly bounded along the left side of the screen */
+@keyframes leafDriftLeft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) rotateY(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  25% {
+    transform: translate3d(12px, 120px, 0) rotate(25deg) rotateY(70deg);
+  }
+  50% {
+    transform: translate3d(-10px, 270px, 0) rotate(-15deg) rotateY(160deg);
+  }
+  75% {
+    transform: translate3d(16px, 430px, 0) rotate(35deg) rotateY(260deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(-6px, 620px, 0) rotate(60deg) rotateY(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDriftLeftSway {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(10deg) rotateY(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  30% {
+    transform: translate3d(24px, 140px, 0) rotate(-25deg) rotateY(110deg);
+  }
+  55% {
+    transform: translate3d(-12px, 300px, 0) rotate(20deg) rotateY(220deg);
+  }
+  80% {
+    transform: translate3d(28px, 470px, 0) rotate(-15deg) rotateY(320deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(8px, 640px, 0) rotate(40deg) rotateY(420deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDriftLeftCurl {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-10deg) rotateX(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  28% {
+    transform: translate3d(18px, 130px, 0) rotate(30deg) rotateX(90deg);
+  }
+  52% {
+    transform: translate3d(5px, 280px, 0) rotate(-20deg) rotateX(190deg);
+  }
+  78% {
+    transform: translate3d(32px, 450px, 0) rotate(25deg) rotateX(290deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(14px, 630px, 0) rotate(50deg) rotateX(360deg);
+    opacity: 0;
+  }
+}
+
+.leaf-left { animation: leafDriftLeft linear infinite; }
+.leaf-sway { animation: leafDriftLeftSway linear infinite; }
+.leaf-curl { animation: leafDriftLeftCurl linear infinite; }
+
+
+
+

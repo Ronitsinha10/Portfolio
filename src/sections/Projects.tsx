@@ -1,149 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Search, ArrowUpRight, FileText, Mic, Terminal } from 'lucide-react';
+import { Search, ArrowUpRight, ExternalLink } from 'lucide-react';
+import { Github } from '../components/SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '../components/ScrollReveal';
-
-// Sleek, compact visual preview representing each project
-const ProjectVisual: React.FC<{ projectId: string }> = ({ projectId }) => {
-  switch (projectId) {
-    case 'proj1': // B.Tech Resume Builder
-      return (
-        <div className="w-full h-full bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950/40 p-3 flex flex-col justify-between text-white font-sans select-none relative overflow-hidden">
-          {/* Subtle accent glow */}
-          <div className="absolute -top-10 -right-10 w-24 h-24 bg-sky-500/15 rounded-full blur-xl pointer-events-none" />
-
-          {/* Top miniature status bar */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 relative z-10">
-            <span className="text-[9px] font-bold text-sky-400 flex items-center gap-1.5">
-              <FileText className="w-3 h-3 text-sky-400" />
-              Resume Builder
-            </span>
-            <span className="text-[8px] font-mono bg-sky-500/15 text-sky-300 px-1.5 py-0.5 rounded border border-sky-500/20">
-              ATS-Optimized
-            </span>
-          </div>
-
-          {/* Mini document mock representation */}
-          <div className="flex items-center gap-2.5 py-1 relative z-10">
-            {/* Left mini sheet */}
-            <div className="w-16 h-14 bg-white text-slate-900 rounded-md p-1.5 shadow-sm flex flex-col justify-between text-[5px] shrink-0">
-              <div>
-                <div className="w-8 h-1 bg-sky-600 rounded-xs mb-1" />
-                <div className="w-12 h-0.5 bg-slate-300 rounded-xs my-0.5" />
-                <div className="w-10 h-0.5 bg-slate-200 rounded-xs" />
-              </div>
-              <div className="flex justify-between items-center text-[4.5px] text-sky-700 font-bold border-t border-slate-100 pt-0.5">
-                <span>ATS 100%</span>
-                <span>PDF</span>
-              </div>
-            </div>
-
-            {/* Right mini features list */}
-            <div className="flex-1 space-y-1 font-mono text-[7.5px] text-slate-300">
-              <div className="flex items-center gap-1 text-slate-400">
-                <span className="w-1 h-1 rounded-full bg-sky-400" />
-                <span>Live Split Preview</span>
-              </div>
-              <div className="flex items-center gap-1 text-slate-400">
-                <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                <span>Multi-Theme Export</span>
-              </div>
-              <div className="flex items-center gap-1 text-slate-400">
-                <span className="w-1 h-1 rounded-full bg-blue-400" />
-                <span>Client Persistence</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom subtle bar */}
-          <div className="flex items-center justify-between text-[7px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
-            <span>Client-side SPA</span>
-            <span className="text-sky-400 font-medium">1-Click PDF</span>
-          </div>
-        </div>
-      );
-
-    case 'proj2': // Virtual Interview Coach
-      return (
-        <div className="w-full h-full bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950/40 p-3 flex flex-col justify-between text-white font-sans select-none relative overflow-hidden">
-          {/* Subtle accent glow */}
-          <div className="absolute -top-10 -right-10 w-24 h-24 bg-violet-500/15 rounded-full blur-xl pointer-events-none" />
-
-          {/* Top miniature status bar */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 relative z-10">
-            <span className="text-[9px] font-bold text-violet-400 flex items-center gap-1.5">
-              <Mic className="w-3 h-3 text-violet-400" />
-              AI Interview Coach
-            </span>
-            <span className="text-[8px] font-mono bg-violet-500/15 text-violet-300 px-1.5 py-0.5 rounded border border-violet-500/20">
-              ElevenLabs Voice
-            </span>
-          </div>
-
-          {/* Audio Waveform miniature visualization */}
-          <div className="flex items-center justify-center gap-1 py-1.5 relative z-10">
-            {[25, 45, 80, 50, 95, 70, 35, 75, 90, 60, 40].map((h, i) => (
-              <div
-                key={i}
-                className="w-1 rounded-full bg-gradient-to-t from-violet-600 to-indigo-400"
-                style={{ height: `${h * 0.22}px` }}
-              />
-            ))}
-          </div>
-
-          {/* Bottom metrics row */}
-          <div className="flex items-center justify-between text-[7.5px] font-mono bg-slate-900/80 px-2 py-1 rounded border border-slate-800 text-slate-300">
-            <span className="text-violet-400">AI Feedback:</span>
-            <span className="text-emerald-400 font-bold">Clarity 94%</span>
-            <span className="text-cyan-400 font-bold">Confidence 91%</span>
-          </div>
-        </div>
-      );
-
-    case 'proj3': // Developer Portfolio
-      return (
-        <div className="w-full h-full bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950/40 p-3 flex flex-col justify-between text-white font-sans select-none relative overflow-hidden">
-          {/* Subtle accent glow */}
-          <div className="absolute -top-10 -right-10 w-24 h-24 bg-cyan-500/15 rounded-full blur-xl pointer-events-none" />
-
-          {/* Top miniature status bar */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 relative z-10">
-            <span className="text-[9px] font-bold text-cyan-400 flex items-center gap-1.5">
-              <Terminal className="w-3 h-3 text-cyan-400" />
-              Developer Portfolio
-            </span>
-            <span className="text-[8px] font-mono bg-cyan-500/15 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/20">
-              React 19 • Vite
-            </span>
-          </div>
-
-          {/* Mini command bar mockup */}
-          <div className="bg-slate-900/90 rounded-md p-1.5 border border-slate-800 flex items-center justify-between text-[7px] font-mono text-slate-400 relative z-10">
-            <span className="text-cyan-400 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              ⌘K Navigation
-            </span>
-            <span className="bg-slate-800 text-slate-300 px-1 rounded text-[6.5px]">Active</span>
-          </div>
-
-          {/* Bottom live stats tags */}
-          <div className="flex items-center justify-between text-[7px] text-slate-400 font-mono pt-1 border-t border-slate-800/60">
-            <span>Live GitHub API</span>
-            <span className="text-cyan-400">LeetCode Stats</span>
-          </div>
-        </div>
-      );
-
-    default:
-      return (
-        <div className="w-full h-full bg-gradient-to-r from-lightAccent to-lightSecondaryAccent flex items-center justify-center text-white font-semibold">
-          Portfolio Project
-        </div>
-      );
-  }
-};
 
 export const Projects: React.FC = () => {
   const { projects } = portfolioData;
@@ -214,83 +75,124 @@ export const Projects: React.FC = () => {
           </div>
         </div>
 
-        {/* Refined Compact Project Cards Grid */}
+        {/* Redesigned Text-Focused Project Cards Grid */}
         <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((proj) => {
+            {filteredProjects.map((proj, idx) => {
               const isFeatured = Boolean(proj.featured);
+              const indexFormatted = String(idx + 1).padStart(2, '0');
+
               return (
                 <ScrollStaggerItem key={proj.id} animation="scale-in">
-                  <Link
-                    to={`/project/${proj.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-darkAccent rounded-lg"
-                    title={`Open ${proj.title} case study in a new page`}
-                  >
+                  <div className="h-full focus-within:ring-2 focus-within:ring-darkAccent/50 rounded-lg outline-none">
                     <motion.div
                       layout
-                      className="flex flex-col h-full rounded-lg overflow-hidden glass-primary-interactive"
+                      className="flex flex-col justify-between h-full min-h-[310px] sm:min-h-[320px] rounded-lg glass-primary-interactive p-5 sm:p-6 transition-all duration-300 relative group"
                     >
-                      {/* Compact Visual Header (h-[135px]) */}
-                      <div className="h-[135px] w-full border-b border-white/10 overflow-hidden relative">
-                        <ProjectVisual projectId={proj.id} />
-                        
-                        {/* Category Pill Tag & Featured Indicator */}
-                        <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5">
-                          <span className="glass-subtle text-stone-200 px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider font-bold shadow-xs">
+                      {/* Top Header: Category, Featured Pill, and Index */}
+                      <div className="flex items-center justify-between gap-3 mb-4 select-none">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="glass-subtle text-stone-300 px-2.5 py-1 rounded text-[10px] font-mono uppercase tracking-wider font-semibold border border-white/5">
                             {proj.category}
                           </span>
                           {isFeatured && (
-                            <span className="px-1.5 py-0.5 rounded bg-darkAccent/90 text-white font-mono text-[8.5px] uppercase tracking-wider font-extrabold shadow-xs">
+                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-darkAccent/15 border border-darkAccent/30 text-darkAccent font-mono text-[9.5px] uppercase tracking-wider font-bold shadow-xs">
+                              <span className="w-1.5 h-1.5 rounded-full bg-darkAccent animate-pulse" />
                               Featured
                             </span>
                           )}
                         </div>
 
-                        {/* External Arrow Quick Cue */}
-                        <div className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full glass-subtle flex items-center justify-center text-white/80 group-hover:text-white group-hover:bg-darkAccent transition-all shadow-xs">
-                          <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </div>
+                        <span className="font-mono text-xs font-medium text-stone-500 tracking-wider">
+                          {indexFormatted}
+                        </span>
                       </div>
 
-                      {/* Compact Content Area */}
-                      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between gap-3">
-                        <div className="space-y-1.5">
-                          <h3 className="font-display font-bold text-sm sm:text-base text-lightHeading dark:text-darkHeading group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors">
+                      {/* Middle Body: Prominent Title & Informative Description */}
+                      <div className="space-y-2.5 flex-1 mb-5">
+                        <Link
+                          to={`/project/${proj.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors focus:outline-none"
+                          title={`Open ${proj.title} case study in a new tab`}
+                        >
+                          <h3 className="font-display font-extrabold text-lg sm:text-xl text-lightHeading dark:text-darkHeading tracking-tight leading-snug">
                             {proj.title}
                           </h3>
-                          <p className="text-xs text-gray-400 dark:text-stone-300 font-sans leading-relaxed line-clamp-2">
-                            {proj.description}
-                          </p>
+                        </Link>
+                        <p className="text-xs sm:text-[13px] text-gray-400 dark:text-stone-300 font-sans leading-relaxed line-clamp-3">
+                          {proj.description}
+                        </p>
+                      </div>
+
+                      {/* Bottom Footer: Tech Stack Chips & Aligned Actions */}
+                      <div className="mt-auto pt-4 border-t border-white/10 space-y-4">
+                        {/* Tech Chips */}
+                        <div className="flex flex-wrap gap-1.5 items-center">
+                          {proj.techStack.slice(0, 4).map((tech) => (
+                            <span
+                              key={tech}
+                              className="glass-subtle text-stone-300 px-2 py-0.5 rounded text-[10px] font-mono font-medium border border-white/5"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {proj.techStack.length > 4 && (
+                            <span
+                              className="glass-subtle text-stone-400 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium border border-white/5"
+                              title={proj.techStack.slice(4).join(', ')}
+                            >
+                              +{proj.techStack.length - 4}
+                            </span>
+                          )}
                         </div>
 
-                        {/* Tech Chips & Explanatory Link */}
-                        <div className="space-y-2.5 pt-2 border-t border-white/10">
-                          <div className="flex flex-wrap gap-1.5">
-                            {proj.techStack.slice(0, 3).map((tech) => (
-                              <span
-                                key={tech}
-                                className="glass-subtle text-stone-300 px-2 py-0.5 rounded text-[10px] font-mono font-medium"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                            {proj.techStack.length > 3 && (
-                              <span className="glass-subtle text-stone-400 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium">
-                                +{proj.techStack.length - 3}
-                              </span>
-                            )}
-                          </div>
+                        {/* Aligned Bottom Actions */}
+                        <div className="flex items-center justify-between gap-3 pt-1">
+                          <Link
+                            to={`/project/${proj.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-lightAccent dark:text-darkAccent hover:text-darkHighlightAccent group-hover:translate-x-0.5 transition-all focus:outline-none"
+                            title={`Read ${proj.title} full breakdown`}
+                          >
+                            <span>Case Study</span>
+                            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          </Link>
 
-                          <div className="flex items-center justify-between text-[11px] font-semibold text-lightAccent dark:text-darkAccent pt-0.5">
-                            <span>View Full Explanation</span>
-                            <span className="group-hover:translate-x-1 transition-transform">→</span>
+                          <div className="flex items-center gap-2">
+                            {proj.githubUrl && (
+                              <a
+                                href={proj.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md glass-subtle-interactive text-stone-300 hover:text-white text-[11px] font-mono font-medium cursor-pointer transition-colors"
+                                title="View Source on GitHub"
+                                aria-label={`View ${proj.title} source code on GitHub`}
+                              >
+                                <Github className="w-3.5 h-3.5" />
+                                <span>Code</span>
+                              </a>
+                            )}
+                            {proj.liveUrl && (
+                              <a
+                                href={proj.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-darkAccent/15 hover:bg-darkAccent/25 text-amber-300 hover:text-amber-200 border border-darkAccent/30 text-[11px] font-mono font-medium cursor-pointer transition-colors"
+                                title="Open Live Demonstration"
+                                aria-label={`Open live demo for ${proj.title}`}
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                                <span>Live</span>
+                              </a>
+                            )}
                           </div>
                         </div>
                       </div>
                     </motion.div>
-                  </Link>
+                  </div>
                 </ScrollStaggerItem>
               );
             })}
