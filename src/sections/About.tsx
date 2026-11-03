@@ -93,21 +93,21 @@ export const About: React.FC = () => {
           {/* Left Panel: Intro Narrative & Stats Grid */}
           <div className="lg:col-span-7 space-y-8">
             <ScrollReveal animation="fade-up" duration={0.8} delay={0.1}>
-              <div className="space-y-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed">
-                <h3 className="font-display font-bold text-xl text-lightText dark:text-darkText">
+              <div className="p-6 rounded-lg glass-subtle space-y-4 text-stone-300 text-sm sm:text-base leading-relaxed">
+                <h3 className="font-display font-bold text-xl text-lightHeading dark:text-darkHeading">
                   Hi, I'm Ronit Sinha. I engineer solutions.
                 </h3>
-                <p>
+                <p className="text-stone-300 font-sans leading-relaxed">
                   I'm a Computer Science student and aspiring full-stack developer passionate about building modern web applications and exploring AI integration. I enjoy working with the MERN stack, experimenting with AI-powered solutions, and strengthening my understanding of software architecture, design patterns, and core software engineering principles.
                 </p>
-                <p>
+                <p className="text-stone-300 font-sans leading-relaxed">
                   I'm constantly learning, building projects, and exploring new technologies to write clean, efficient, and maintainable code. My goal is to turn creative ideas into practical solutions and grow as a software engineer.
                 </p>
               </div>
             </ScrollReveal>
 
-            {/* Stats Counters Grid */}
-            <ScrollStagger className="grid grid-cols-2 gap-4">
+            {/* Stats Counters Grid - Borderless Content */}
+            <ScrollStagger className="grid grid-cols-2 gap-6 pt-2">
               {stats.map((stat) => {
                 const isContributions = stat.label === 'GitHub Contributions';
                 const isRepos = stat.label === 'GitHub Repositories';
@@ -116,7 +116,7 @@ export const About: React.FC = () => {
                 if (stat.label.includes('Solved')) suffix = '+';
                 return (
                   <ScrollStaggerItem key={stat.label} animation="scale-in">
-                    <div className="p-5 rounded-2xl border border-gray-200/20 dark:border-gray-800/80 bg-white/50 dark:bg-gray-900/40 backdrop-blur-md flex flex-col gap-1.5">
+                    <div className="py-2 px-1 flex flex-col gap-1 content-borderless">
                       {isContributions ? (
                         ghLoading && ghContributions === null ? (
                           <span className="font-display font-extrabold text-3xl sm:text-4xl text-lightAccent/40 dark:text-darkAccent/40 animate-pulse">
@@ -165,7 +165,7 @@ export const About: React.FC = () => {
                       ) : (
                         <AnimatedCounter value={stat.value} suffix={suffix} />
                       )}
-                      <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 font-sans tracking-wide uppercase">
+                      <span className="text-xs font-semibold text-gray-400 font-sans tracking-wide uppercase">
                         {stat.label}
                       </span>
                     </div>
@@ -175,19 +175,19 @@ export const About: React.FC = () => {
             </ScrollStagger>
           </div>
 
-          {/* Right Panel: Feature Narrative Cards */}
+          {/* Right Panel: Important About Information Cards (Primary Glass) */}
           <ScrollStagger className="lg:col-span-5 space-y-4">
             {cards.map((card) => (
               <ScrollStaggerItem key={card.title} animation="fade-right">
-                <div className="p-6 rounded-2xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm flex gap-4 items-start hover:border-lightAccent/30 dark:hover:border-darkAccent/30 hover:shadow-md transition-all duration-300 group">
-                  <div className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0 group-hover:bg-lightAccent/10 dark:group-hover:bg-darkAccent/10 transition-colors">
+                <div className="p-6 rounded-lg glass-primary-interactive flex gap-4 items-start group">
+                  <div className="p-3 rounded-lg glass-subtle flex items-center justify-center flex-shrink-0 group-hover:border-darkAccent/40 transition-colors">
                     {card.icon}
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-display font-bold text-sm text-lightText dark:text-darkText">
+                    <h4 className="font-display font-bold text-sm text-lightHeading dark:text-darkHeading group-hover:text-darkAccent transition-colors">
                       {card.title}
                     </h4>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-sans leading-relaxed">
+                    <p className="text-xs text-gray-400 dark:text-stone-300 font-sans leading-relaxed">
                       {card.description}
                     </p>
                   </div>

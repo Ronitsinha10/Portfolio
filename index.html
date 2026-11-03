@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 75 L25 25 L50 25 C65 25 65 45 50 45 L35 45 M45 45 L65 75' stroke='%236366F1' stroke-width='10' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
@@ -21,15 +21,13 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ronit Sinha | Full Stack Developer" />
     <meta name="twitter:description" content="Building modern full-stack web applications with React, Node.js, MongoDB, and TypeScript. Explore my projects, skills, and development journey." />
-    <!-- Anti-flicker theme initialization -->
+    
+    <!-- Dark Mode Theme Initialization -->
     <script>
       (function() {
         try {
-          var saved = localStorage.getItem('portfolio-theme');
-          var theme = (saved === 'light' || saved === 'dark')
-            ? saved
-            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark');
-          document.documentElement.classList.add(theme);
+          localStorage.removeItem('portfolio-theme');
+          document.documentElement.classList.add('dark');
         } catch (e) {}
       })();
     </script>

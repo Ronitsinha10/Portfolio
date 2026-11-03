@@ -31,23 +31,8 @@ export const Services: React.FC = () => {
     }
   };
 
-  const getGlowColor = (idx: number) => {
-    switch (idx) {
-      case 0:
-        return 'hover:shadow-indigo-500/10 dark:hover:shadow-none hover:border-indigo-500/40 dark:hover:border-darkAccent/40';
-      case 1:
-        return 'hover:shadow-purple-500/10 dark:hover:shadow-none hover:border-purple-500/40 dark:hover:border-darkAccent/40';
-      case 2:
-        return 'hover:shadow-cyan-500/10 dark:hover:shadow-none hover:border-cyan-500/40 dark:hover:border-darkAccent/40';
-      case 3:
-        return 'hover:shadow-emerald-500/10 dark:hover:shadow-none hover:border-emerald-500/40 dark:hover:border-darkAccent/40';
-      default:
-        return 'hover:shadow-indigo-500/10 hover:border-indigo-500/40 dark:hover:border-darkAccent/40';
-    }
-  };
-
   return (
-    <section id="services" ref={containerRef} className="py-24 px-6 relative bg-gray-50/50 dark:bg-gray-950/20 overflow-hidden">
+    <section id="services" ref={containerRef} className="py-24 px-6 relative overflow-hidden">
       {/* Parallax background shapes */}
       <motion.div
         style={{ y: y1 }}
@@ -72,22 +57,22 @@ export const Services: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* Services Grid */}
+        {/* Services Grid (Light Glass - Supporting information cards) */}
         <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {services.map((srv, idx) => (
+          {services.map((srv) => (
             <ScrollStaggerItem key={srv.title} animation="fade-up">
-              <div className={`p-6 sm:p-8 rounded-3xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm transition-all duration-300 hover:translate-y-[-2px] flex gap-5 items-start ${getGlowColor(idx)}`}>
+              <div className="p-6 sm:p-8 rounded-lg glass-light-interactive flex gap-5 items-start">
                 {/* Service Icon */}
-                <div className="p-3.5 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
+                <div className="p-3.5 rounded-lg glass-subtle flex items-center justify-center flex-shrink-0">
                   {getIcon(srv.icon)}
                 </div>
 
                 {/* Service Body */}
                 <div className="space-y-2 flex-1">
-                  <h3 className="font-display font-extrabold text-sm sm:text-base text-lightText dark:text-darkText">
+                  <h3 className="font-display font-extrabold text-sm sm:text-base text-lightHeading dark:text-darkHeading">
                     {srv.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-sans leading-relaxed">
+                  <p className="text-xs sm:text-sm text-gray-400 dark:text-stone-300 font-sans leading-relaxed">
                     {srv.description}
                   </p>
                 </div>

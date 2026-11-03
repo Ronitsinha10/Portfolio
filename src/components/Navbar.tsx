@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useActiveSection } from '../hooks/useActiveSection';
-import { ThemeToggle } from './ThemeToggle';
+import { scrollToSection } from '../utils/navigation';
 
 interface NavbarProps {
   onOpenResume: () => void;
@@ -16,7 +17,6 @@ const NAV_ITEMS = [
   { label: 'Projects', id: 'projects' },
   { label: 'Open Source', id: 'opensource' },
   { label: 'My Presence', id: 'mypresence' },
-  // { label: 'Blog', id: 'blog' },
   { label: 'Contact', id: 'contact' },
 ] as const;
 
@@ -25,38 +25,30 @@ const SECTION_IDS = NAV_ITEMS.map((item) => item.id);
 export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const activeSection = useActiveSection(SECTION_IDS as unknown as string[]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const isScrolled = window.scrollY > 20;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleNavClick = (id: string) => {
     setIsOpen(false);
+    const targetPath = id === 'home' ? '/' : `/${id}`;
 
-    if (id === 'home') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-      return;
-    }
-
-    const element = document.getElementById(id);
-    if (element) {
-      const navOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = Math.max(0, elementPosition + window.scrollY - navOffset);
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+    if (location.pathname === targetPath) {
+      scrollToSection(id);
+    } else {
+      navigate(targetPath);
+      scrollToSection(id);
     }
   };
 
@@ -64,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 dark:bg-darkBg/80 backdrop-blur-md py-3 shadow-md border-b border-gray-200/10 dark:border-gray-800/40'
+          ? 'bg-[rgba(15,18,24,0.32)] backdrop-blur-[5px] py-3 shadow-md border-b border-white/12'
           : 'bg-transparent py-5'
       }`}
     >
@@ -94,13 +86,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 className={`relative px-4 py-2 text-xs font-medium tracking-wide uppercase transition-colors cursor-pointer ${
-                  isActive ? 'text-lightAccent dark:text-darkAccent' : 'text-gray-600 dark:text-gray-400 hover:text-lightAccent dark:hover:text-darkAccent'
+                  isActive ? 'text-lightAccent dark:text-darkAccent font-semibold' : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {isActive && (
                   <motion.span
                     layoutId="activePill"
-                    className="absolute inset-0 rounded-full bg-lightAccent/5 dark:bg-darkAccent/10"
+                    className="absolute inset-0 rounded-full bg-darkAccent/15 border border-darkAccent/30"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -112,25 +104,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
         {/* Action Items */}
         <div className="hidden lg:flex items-center gap-4">
-          <ThemeToggle />
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onOpenResume}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-lightAccent/20 dark:border-darkAccent/30 hover:border-lightAccent dark:hover:border-darkAccent bg-lightAccent/5 dark:bg-darkAccent/10 hover:bg-lightAccent dark:hover:bg-darkAccent text-lightAccent dark:text-darkText hover:text-white transition-all duration-300 font-medium text-xs tracking-wider uppercase cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 rounded-full glass-subtle-interactive text-stone-200 hover:text-white font-medium text-xs tracking-wider uppercase cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download className="w-3.5 h-3.5 text-darkAccent" />
             Resume
           </motion.button>
         </div>
 
         {/* Mobile Controls */}
         <div className="flex items-center gap-3 lg:hidden">
-          <ThemeToggle />
-          
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2.5 rounded-full border border-gray-200/20 dark:border-gray-800/60 bg-white/10 dark:bg-gray-900/40 text-gray-800 dark:text-gray-200 hover:bg-gray-100/30 dark:hover:bg-gray-800/30 cursor-pointer transition-colors"
+            className="p-2.5 rounded-full glass-subtle-interactive text-stone-200 hover:text-white cursor-pointer"
             aria-label="Toggle Menu"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -146,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="lg:hidden border-t border-gray-200/10 dark:border-gray-800/40 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl overflow-hidden"
+            className="lg:hidden border-t border-white/10 bg-[rgba(15,18,24,0.92)] backdrop-blur-2xl overflow-hidden"
           >
             <nav className="flex flex-col gap-1 px-6 py-6 max-h-[80vh] overflow-y-auto">
               {NAV_ITEMS.map((item, idx) => {
@@ -161,10 +150,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                     <button
                       type="button"
                       onClick={() => handleNavClick(item.id)}
-                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-display text-sm font-semibold transition-all cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-display text-sm font-semibold transition-all cursor-pointer ${
                         isActive 
-                          ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent border-l-4 border-lightAccent dark:border-darkAccent' 
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-900/50'
+                          ? 'bg-darkAccent/15 text-darkAccent border-l-2 border-darkAccent' 
+                          : 'text-stone-400 hover:text-white hover:bg-white/5'
                       }`}
                     >
                       {item.label}
@@ -184,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                     setIsOpen(false);
                     onOpenResume();
                   }}
-                  className="w-full mt-4 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-lightAccent dark:bg-darkAccent text-white text-sm font-semibold cursor-pointer shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 dark:shadow-none"
+                  className="w-full mt-4 flex items-center justify-center gap-2 py-3.5 rounded-lg bg-lightAccent dark:bg-darkAccent text-white text-sm font-semibold cursor-pointer shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 dark:shadow-none"
                 >
                   <Download className="w-4 h-4" />
                   Download Resume

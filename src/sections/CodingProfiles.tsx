@@ -20,14 +20,14 @@ const CircularProgress: React.FC<{ value: number; max: number; label: string; co
   const strokeDashoffset = circumference - percentage * circumference;
 
   return (
-    <div className="flex items-center gap-3 bg-gray-50/50 dark:bg-gray-950/40 p-3 rounded-2xl border border-gray-200 dark:border-gray-800/60">
+    <div className="flex items-center gap-3 glass-subtle p-3 rounded-lg border border-white/5">
       <div className="relative w-14 h-14 rotate-[-90deg]">
         <svg className="w-full h-full" viewBox="0 0 64 64">
           <circle
             cx="32"
             cy="32"
             r={radius}
-            className="stroke-gray-200 dark:stroke-gray-800"
+            className="stroke-white/10"
             strokeWidth="3.5"
             fill="transparent"
           />
@@ -184,18 +184,18 @@ export const CodingProfiles: React.FC = () => {
 
             return (
               <ScrollStaggerItem key={profile.platform} animation="scale-in">
-                <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm hover:border-lightAccent/25 dark:hover:border-darkAccent/25 hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-6">
+                <div className="p-6 sm:p-8 rounded-lg glass-light-interactive flex flex-col justify-between gap-6">
                   {/* Profile Card Header */}
-                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                      <div className="p-2.5 rounded-lg glass-subtle flex items-center justify-center">
                         {getPlatformIcon(profile.platform)}
                       </div>
                       <div>
-                        <h3 className="font-display font-extrabold text-sm sm:text-base text-lightText dark:text-darkText">
+                        <h3 className="font-display font-extrabold text-sm sm:text-base text-lightHeading dark:text-darkHeading">
                           {profile.platform}
                         </h3>
-                        <p className="text-[10px] font-mono text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p className="text-[10px] font-mono text-gray-400 mt-0.5">
                           @{effectiveUsername}
                         </p>
                       </div>
@@ -205,7 +205,7 @@ export const CodingProfiles: React.FC = () => {
                       href={effectiveLink}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-2 rounded-xl text-gray-400 hover:text-lightAccent dark:hover:text-darkAccent bg-gray-50 dark:bg-gray-800 hover:bg-lightAccent/10 dark:hover:bg-darkAccent/10 cursor-pointer transition-all"
+                      className="p-2 rounded-lg text-stone-300 hover:text-white glass-subtle-interactive cursor-pointer"
                       title={`Open ${profile.platform}`}
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -214,8 +214,8 @@ export const CodingProfiles: React.FC = () => {
 
                   {/* Central Rating Details */}
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between bg-indigo-50/30 dark:bg-indigo-950/20 px-4 py-3 rounded-2xl border border-indigo-500/10">
-                      <span className="text-[10px] uppercase font-sans font-bold text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center justify-between glass-subtle px-4 py-2.5 rounded-lg border border-white/5">
+                      <span className="text-[10px] uppercase font-sans font-bold text-gray-400">
                         Platform Credential
                       </span>
                       <span className="text-xs font-mono font-extrabold text-lightAccent dark:text-darkAccent">
@@ -235,7 +235,7 @@ export const CodingProfiles: React.FC = () => {
                   </div>
 
                   {/* Sub Metrics Grid */}
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-100 dark:border-gray-800 pt-5">
+                  <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-5">
                     {effectiveStats.map((st) => (
                       <div key={st.label} className="text-center">
                         <span className="text-[9px] uppercase font-sans font-semibold text-gray-400 tracking-wider">

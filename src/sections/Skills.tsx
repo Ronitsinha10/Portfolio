@@ -32,7 +32,7 @@ export const Skills: React.FC = () => {
   ];
 
   return (
-    <section id="skills" className="py-16 px-6 relative bg-gray-50/50 dark:bg-darkBg transition-colors duration-300">
+    <section id="skills" className="py-16 px-6 relative">
       <div className="max-w-5xl mx-auto">
         {/* Section Title */}
         <ScrollReveal animation="blur-in" duration={0.8}>
@@ -47,9 +47,9 @@ export const Skills: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* Single Premium Container */}
+        {/* Skill Category Container (Light Glass) */}
         <ScrollReveal animation="scale-in" duration={0.8} delay={0.1}>
-          <div className="rounded-3xl border border-gray-200/50 dark:border-darkBorder bg-white dark:bg-darkCard shadow-sm p-6 sm:p-8 space-y-6 sm:space-y-8">
+          <div className="rounded-lg glass-light p-6 sm:p-8 space-y-6 sm:space-y-8">
             {categories.map((cat, idx) => {
               const catSkills = skills.filter((s) => {
                 const sCat = s.category.toLowerCase();
@@ -67,15 +67,15 @@ export const Skills: React.FC = () => {
                 <div 
                   key={cat.id} 
                   className={`flex flex-col md:flex-row md:items-center gap-4 md:gap-6 ${
-                    idx !== categories.length - 1 ? 'border-b border-gray-100 dark:border-darkBorder/40 pb-6 sm:pb-8' : ''
+                    idx !== categories.length - 1 ? 'border-b border-white/10 pb-6 sm:pb-8' : ''
                   }`}
                 >
                   {/* Category Header Label */}
                   <div className="flex items-center gap-3 w-full md:w-56 shrink-0 group">
-                    <div className="p-2 rounded-lg bg-gray-100 dark:bg-darkBg border border-gray-200/10 dark:border-darkBorder/50 flex items-center justify-center transition-colors duration-300 group-hover:border-lightAccent/30 dark:group-hover:border-darkAccent/30">
+                    <div className="p-2 rounded-lg glass-subtle flex items-center justify-center transition-colors duration-300 group-hover:border-darkAccent/40">
                       {cat.icon}
                     </div>
-                    <span className="font-display font-semibold text-sm text-gray-700 dark:text-darkHeading group-hover:text-lightAccent dark:group-hover:text-darkAccent transition-colors duration-300">
+                    <span className="font-display font-semibold text-sm text-gray-200 group-hover:text-darkAccent transition-colors duration-300">
                       {cat.name}
                     </span>
                   </div>
@@ -86,17 +86,17 @@ export const Skills: React.FC = () => {
                       <motion.div
                         key={skill.name}
                         whileHover={{ y: -2 }}
-                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                        className="group/chip flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-gray-200 dark:border-darkBorder/60 bg-stone-50 dark:bg-darkBg hover:bg-white dark:hover:bg-darkCard hover:border-lightAccent/50 dark:hover:border-darkAccent/50 hover:shadow-[0_4px_12px_rgba(0,0,0,0.03)] dark:hover:shadow-[0_4px_12px_rgba(0,0,0,0.25)] transition-all duration-300 cursor-default"
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        className="group/chip flex items-center gap-2.5 px-3.5 py-1.5 rounded-lg glass-subtle-interactive cursor-default"
                       >
                         {/* Logo */}
                         <TechIcon 
                           name={skill.name} 
-                          className="text-gray-500 dark:text-stone-400 group-hover/chip:text-lightAccent dark:group-hover/chip:text-darkAccent transition-colors duration-300"
+                          className="text-stone-400 group-hover/chip:text-darkAccent transition-colors duration-300"
                           size={14} 
                         />
                         {/* Name */}
-                        <span className="text-xs font-semibold text-gray-600 dark:text-stone-300 group-hover/chip:text-gray-900 dark:group-hover/chip:text-white transition-colors duration-300">
+                        <span className="text-xs font-semibold text-stone-300 group-hover/chip:text-white transition-colors duration-300">
                           {skill.name}
                         </span>
                       </motion.div>

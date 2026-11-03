@@ -19,9 +19,10 @@ export const CustomCursor: React.FC = () => {
   useEffect(() => {
     // Check if device supports touch or is small screen
     const checkDevice = () => {
-      const mobile = window.matchMedia('(max-width: 1024px)').matches || 
-                     ('ontouchstart' in window) || 
-                     (navigator.maxTouchPoints > 0);
+      const mobile =
+        window.matchMedia('(max-width: 1024px)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0;
       setIsMobile(mobile);
     };
 
@@ -31,7 +32,7 @@ export const CustomCursor: React.FC = () => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      setIsVisible((prev) => (prev ? prev : true));
     };
 
     const handleMouseLeave = () => {
@@ -39,40 +40,29 @@ export const CustomCursor: React.FC = () => {
     };
 
     const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target) return;
+      const target = e.target as HTMLElement | null;
+      if (!target || typeof target.closest !== 'function') return;
 
-      // Check if target is interactive
-      const isClickableElement = 
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') !== null ||
-        target.closest('button') !== null ||
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.tagName === 'SELECT' ||
-        target.classList.contains('cursor-pointer') ||
-        target.getAttribute('role') === 'button';
+      // Efficient combined check for interactive elements
+      const isClickableElement = Boolean(
+        target.closest('a, button, input, textarea, select, [role="button"], .cursor-pointer')
+      );
+      setIsClickable((prev) => (prev !== isClickableElement ? isClickableElement : prev));
 
-      setIsClickable(isClickableElement);
-      
-      // Special scale scaling for specific elements
-      if (target.getAttribute('data-cursor-scale')) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
+      // Special scale styling for specific elements
+      const hasScale = Boolean(target.closest('[data-cursor-scale]'));
+      setIsHovered((prev) => (prev !== hasScale ? hasScale : prev));
     };
 
     const handleMouseDown = () => setIsHovered(true);
     const handleMouseUp = () => setIsHovered(false);
 
     if (!isMobile) {
-      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseleave', handleMouseLeave);
-      window.addEventListener('mouseover', handleMouseOver);
-      window.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('mouseover', handleMouseOver, { passive: true });
+      window.addEventListener('mousedown', handleMouseDown, { passive: true });
+      window.addEventListener('mouseup', handleMouseUp, { passive: true });
     }
 
     return () => {
@@ -83,7 +73,7 @@ export const CustomCursor: React.FC = () => {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [mouseX, mouseY, isVisible, isMobile]);
+  }, [mouseX, mouseY, isMobile]);
 
   if (isMobile || !isVisible) return null;
 

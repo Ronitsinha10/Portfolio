@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Hash, SunMoon, Download, Code2 } from 'lucide-react';
+import { Search, Hash, Download, Code2 } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Github, Linkedin, X } from './SocialIcons';
-import { useTheme } from '../context/ThemeContext';
+import { scrollToSection } from '../utils/navigation';
 
 interface CommandPaletteProps {
   onOpenResume: () => void;
@@ -21,7 +22,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -34,18 +36,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
     { label: 'Projects', id: 'projects' },
     { label: 'Open Source', id: 'opensource' },
     { label: 'My Presence', id: 'mypresence' },
-    { label: 'Blog', id: 'blog' },
     { label: 'Contact', id: 'contact' },
   ];
 
   const handleScrollTo = (id: string) => {
     setIsOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    const targetPath = id === 'home' ? '/' : `/${id}`;
+    if (location.pathname === targetPath) {
+      scrollToSection(id);
+    } else {
+      navigate(targetPath);
+      scrollToSection(id);
     }
   };
 
@@ -60,17 +61,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
       shortcut: sec.label.substring(0, 1).toUpperCase()
     })),
     // Actions
-    {
-      id: 'action-theme',
-      title: 'Toggle Dark / Light Theme',
-      category: 'Actions',
-      icon: <SunMoon className="w-4 h-4 text-gray-400" />,
-      action: () => {
-        toggleTheme();
-        setIsOpen(false);
-      },
-      shortcut: 'T'
-    },
     {
       id: 'action-resume',
       title: 'View & Download Resume',
@@ -216,11 +206,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
   return (
     <>
       {/* Floating help tip on desktop */}
-      <div className="hidden lg:flex fixed bottom-6 left-6 z-[39] items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200/20 dark:border-gray-800/80 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md text-[10px] font-semibold text-gray-500 uppercase tracking-widest pointer-events-none select-none">
+      <div className="hidden lg:flex fixed bottom-6 left-6 z-[39] items-center gap-1.5 px-3 py-1.5 rounded-full glass-subtle text-[10px] font-semibold text-stone-300 uppercase tracking-widest pointer-events-none select-none">
         <span>Press</span>
-        <kbd className="px-1.5 py-0.5 rounded bg-gray-200/50 dark:bg-gray-800 text-[9px] font-mono">Ctrl</kbd>
+        <kbd className="px-1.5 py-0.5 rounded glass-subtle text-[9px] font-mono">Ctrl</kbd>
         <span>+</span>
-        <kbd className="px-1.5 py-0.5 rounded bg-gray-200/50 dark:bg-gray-800 text-[9px] font-mono">K</kbd>
+        <kbd className="px-1.5 py-0.5 rounded glass-subtle text-[9px] font-mono">K</kbd>
         <span>for Menu</span>
       </div>
 
@@ -233,7 +223,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-gray-950/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
             />
 
             {/* Main Command Bar Container */}
@@ -242,10 +232,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: -8 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-xl rounded-2xl border border-gray-200/30 dark:border-gray-800/80 bg-white dark:bg-gray-900 shadow-2xl overflow-hidden z-10"
+              className="relative w-full max-w-xl rounded-lg glass-primary shadow-2xl overflow-hidden z-10"
             >
               {/* Search Bar Input */}
-              <div className="flex items-center gap-3 px-4 border-b border-gray-200/20 dark:border-gray-800/50">
+              <div className="flex items-center gap-3 px-4 border-b border-white/10">
                 <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
                 <input
                   ref={inputRef}
@@ -256,15 +246,15 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
                     setSearch(e.target.value);
                     setSelectedIndex(0);
                   }}
-                  className="w-full py-4 text-sm bg-transparent border-0 outline-none ring-0 text-gray-800 dark:text-gray-100 placeholder-gray-400"
+                  className="w-full py-4 text-sm bg-transparent border-0 outline-none ring-0 text-stone-100 placeholder-stone-500"
                 />
-                <kbd className="px-2 py-0.5 rounded border border-gray-200/50 dark:border-gray-800 bg-gray-100/50 dark:bg-gray-800/50 text-[10px] font-mono text-gray-400">ESC</kbd>
+                <kbd className="px-2 py-0.5 rounded glass-subtle text-[10px] font-mono text-gray-400">ESC</kbd>
               </div>
 
               {/* Items List */}
               <div
                 ref={listRef}
-                className="max-h-[340px] overflow-y-auto py-2 divide-y divide-gray-100/10"
+                className="max-h-[340px] overflow-y-auto py-2 divide-y divide-white/5"
               >
                 {filteredCommands.length > 0 ? (
                   filteredCommands.map((cmd, idx) => {
@@ -275,20 +265,20 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onOpenResume }) 
                         onClick={cmd.action}
                         onMouseEnter={() => setSelectedIndex(idx)}
                         className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors cursor-pointer ${isSelected
-                          ? 'bg-lightAccent/5 dark:bg-darkAccent/10 text-lightAccent dark:text-darkAccent'
-                          : 'text-gray-600 dark:text-gray-300'
+                          ? 'bg-darkAccent/15 text-darkAccent font-medium'
+                          : 'text-stone-300 hover:text-white'
                           }`}
                       >
                         <div className="flex items-center gap-3">
                           {cmd.icon}
-                          <span className="text-xs font-medium">{cmd.title}</span>
-                          <span className="text-[10px] uppercase font-semibold tracking-wider text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                          <span className="text-xs">{cmd.title}</span>
+                          <span className="text-[10px] uppercase font-semibold tracking-wider text-stone-300 glass-subtle px-2 py-0.5 rounded-full">
                             {cmd.category}
                           </span>
                         </div>
                         {cmd.shortcut && (
                           <div className="flex items-center gap-1">
-                            <kbd className="px-1.5 py-0.5 text-[9px] rounded font-mono border border-gray-200/30 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-400">
+                            <kbd className="px-1.5 py-0.5 text-[9px] rounded font-mono glass-subtle text-gray-400">
                               {cmd.shortcut}
                             </kbd>
                           </div>

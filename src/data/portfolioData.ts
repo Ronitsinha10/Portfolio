@@ -25,15 +25,7 @@ export interface ProjectItem {
   githubUrl: string;
   liveUrl: string;
   image: string; // Will generate or draw gorgeous SVG gradient card representations
-}
-
-export interface AchievementItem {
-  id: string;
-  title: string;
-  issuer: string;
-  date: string;
-  description: string;
-  category: 'Award' | 'Certification' | 'Hackathon' | 'Coding';
+  featured?: boolean;
 }
 
 export interface CodingProfile {
@@ -45,27 +37,6 @@ export interface CodingProfile {
   maxSolvedCount?: number; // for circular charts
   link: string;
   stats: { label: string; value: string | number }[];
-}
-
-export interface TestimonialItem {
-  id: string;
-  name: string;
-  role: string;
-  company: string;
-  text: string;
-  avatar: string;
-  rating: number;
-}
-
-export interface BlogItem {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  link: string;
 }
 
 export const projects: ProjectItem[] = [
@@ -103,7 +74,8 @@ export const projects: ProjectItem[] = [
     ],
     githubUrl: 'https://github.com/Ronitsinha10/Virtual-Interview-Coach',
     liveUrl: '',
-    image: 'gradient-purple'
+    image: 'gradient-purple',
+    featured: true
   },
   {
     id: 'proj3',
@@ -133,13 +105,7 @@ export const portfolioData = {
     location: 'India',
     email: 'ronitsinha177@gmail.com',
     resumeUrl: '#', // Handled via modal download trigger
-    typingRoles: [
-      'Full Stack Developer',
-      'MERN Stack Specialist',
-      'Open Source Contributor',
-      'Backend Architect',
-      'Problem Solver'
-    ],
+    typingRoles: ['Full Stack Developer'],
     socials: {
       github: 'https://github.com/Ronitsinha10',
       linkedin: 'https://www.linkedin.com/in/ronit-sinha-5b3b16329/',
@@ -272,100 +238,5 @@ export const portfolioData = {
       description: 'Translating designs (Framer, Figma) into responsive layouts utilizing Tailwind CSS and Framer Motion for premium, modern, fluid micro-interactions.',
       icon: 'Sparkles'
     }
-  ],
-  testimonials: [
-    {
-      id: 't1',
-      name: 'Sarah Jenkins',
-      role: 'Co-Founder & CEO',
-      company: 'AeroLaunch Systems',
-      text: 'Ronit delivered our SaaS frontend within tight timelines. His knowledge of React, Tailwind, and layout physics exceeded our expectations. The attention to detail is outstanding.',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      rating: 5
-    },
-    {
-      id: 't2',
-      name: 'Alexander Rostova',
-      role: 'Lead Dev / Mentor',
-      company: 'OpenSubsystem Core',
-      text: 'During our collaboration, Ronit worked tirelessly on refactoring our core processing engine. His Java skills and proactive GitHub pull request contributions are top-tier.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      rating: 5
-    },
-    {
-      id: 't3',
-      name: 'Dhruv Sharma',
-      role: 'Product Director',
-      company: 'Cognitive Digital',
-      text: 'Collaborating with Ronit was seamless. He has a rare blend of strong problem-solving skills (evident from LeetCode metrics) and visual styling talent for custom interfaces.',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
-      rating: 5
-    }
-  ] as TestimonialItem[],
-  blogs: [
-    {
-      id: 'b1',
-      title: 'Deep Dive: Concurrent Processing in Java with Virtual Threads',
-      excerpt: 'Exploring how Java 21 Project Loom transforms backend scalability, contrasting platform threads with lightweight virtual threads using visual performance tests.',
-      date: 'May 12, 2026',
-      readTime: '6 min read',
-      category: 'Java Backend',
-      tags: ['Java 21', 'Spring Boot', 'Concurrency'],
-      link: '#blog1'
-    },
-    {
-      id: 'b2',
-      title: 'Mastering Framer Motion: Creating Physics-Based Fluid Page Animations',
-      excerpt: 'A comprehensive guide to leveraging Framer Motion springs, drag gestures, and layout orchestration to create luxury SaaS-level micro-interactions.',
-      date: 'April 20, 2026',
-      readTime: '8 min read',
-      category: 'Frontend Development',
-      tags: ['React', 'Framer Motion', 'Tailwind'],
-      link: '#blog2'
-    },
-    {
-      id: 'b3',
-      title: 'Demystifying Git: Under the Hood of Commits, Branches, and Trees',
-      excerpt: 'Understanding the low-level Git storage layout, index files, and tree object pointers to master git troubleshooting and branching workflows.',
-      date: 'March 05, 2026',
-      readTime: '5 min read',
-      category: 'Git & DevOps',
-      tags: ['Git', 'DevOps', 'Command Line'],
-      link: '#blog3'
-    }
-  ] as BlogItem[],
-  achievements: [
-    {
-      id: 'ach1',
-      title: 'Dean\'s List for Academic Excellence',
-      issuer: 'Technical University',
-      date: '2023, 2024, 2025',
-      description: 'Awarded academic honors for ranking in the top 3% of the computer science cohort across multiple semesters.',
-      category: 'Award'
-    },
-    {
-      id: 'ach2',
-      title: 'LeetCode Knight Badge',
-      issuer: 'LeetCode Platform',
-      date: '2025',
-      description: 'Attained a rating of 1854, placing in the top 4% of competitive programmers globally, with 680+ coding tasks solved.',
-      category: 'Coding'
-    },
-    {
-      id: 'ach3',
-      title: 'Hackathon Finalist - Smart Solutions',
-      issuer: 'National Technology Challenge',
-      date: '2024',
-      description: 'Designed a real-time smart grid power usage tracking model using React and Node, securing top 5 spots among 300 competing engineering teams.',
-      category: 'Hackathon'
-    },
-    {
-      id: 'ach4',
-      title: 'Advanced React Certification',
-      issuer: 'Frontend Architects',
-      date: '2024',
-      description: 'Demonstrated proficiency in server components, performance debugging, virtualization, hook creation, and bundle optimization.',
-      category: 'Certification'
-    }
-  ] as AchievementItem[]
+  ]
 };

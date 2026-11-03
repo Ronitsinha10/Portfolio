@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Mail, Code2 } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Github, Linkedin, X } from '../components/SocialIcons';
 import { portfolioData } from '../data/portfolioData';
 import { fadeInUp, staggerContainer } from '../animations/variants';
 import profileImg from '../assets/profile.jpg';
+import { scrollToSection } from '../utils/navigation';
 
 interface HeroProps {
   onOpenResume: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
-  const { name, typingRoles, socials } = portfolioData.personalInfo;
-  
-  // Custom typing animation
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
+  const { name, socials } = portfolioData.personalInfo;
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Mouse parallax motion states
   const [rotateX, setRotateX] = useState(0);
@@ -51,43 +49,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
     setTranslateY(0);
   };
 
-  useEffect(() => {
-    const currentFullText = typingRoles[roleIndex];
-    
-    const handleType = () => {
-      if (!isDeleting) {
-        // Typing characters
-        setDisplayedText(currentFullText.substring(0, displayedText.length + 1));
-        setTypingSpeed(100);
-
-        if (displayedText === currentFullText) {
-          // Pause at the end before deleting
-          setTypingSpeed(2000);
-          setIsDeleting(true);
-        }
-      } else {
-        // Deleting characters
-        setDisplayedText(currentFullText.substring(0, displayedText.length - 1));
-        setTypingSpeed(50);
-
-        if (displayedText === '') {
-          setIsDeleting(false);
-          setRoleIndex((prev) => (prev + 1) % typingRoles.length);
-        }
-      }
-    };
-
-    const timer = setTimeout(handleType, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, roleIndex, typingRoles, typingSpeed]);
 
   const handleScrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    const targetPath = id === 'home' ? '/' : `/${id}`;
+    if (location.pathname === targetPath) {
+      scrollToSection(id);
+    } else {
+      navigate(targetPath);
+      scrollToSection(id);
     }
   };
 
@@ -104,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             rotate: [0, 10, 0],
           }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/4 left-10 w-24 h-24 rounded-3xl border border-lightAccent/20 dark:border-darkAccent/30"
+          className="absolute top-1/4 left-10 w-24 h-24 rounded-lg border border-white/10"
         />
         <motion.div
           animate={{
@@ -112,7 +81,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             rotate: [0, -15, 0],
           }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          className="absolute bottom-1/4 right-10 w-32 h-32 rounded-[40px] border border-purple-500/20 dark:border-darkBorder/30"
+          className="absolute bottom-1/4 right-10 w-32 h-32 rounded-lg border border-white/5"
         />
         <motion.div
           animate={{
@@ -134,9 +103,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           {/* Welcome Badge */}
           <motion.div
             variants={fadeInUp(0, 0.6)}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-lightAccent/10 dark:border-darkAccent/20 bg-lightAccent/5 dark:bg-darkAccent/10 text-xs font-semibold text-lightAccent dark:text-darkAccent uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-subtle text-xs font-semibold text-darkAccent uppercase tracking-widest"
           >
-            <span className="w-2 h-2 rounded-full bg-lightAccent dark:bg-darkAccent animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-darkAccent animate-pulse" />
             Welcome to my space
           </motion.div>
 
@@ -149,12 +118,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               </span>
             </h1>
             
-            {/* Animated Typing Role */}
+            {/* Role Title */}
             <div className="h-8 sm:h-10 flex items-center justify-center lg:justify-start">
               <p className="font-display font-medium text-lg sm:text-2xl text-gray-500 dark:text-gray-400">
                 I am a{' '}
-                <span className="text-lightAccent dark:text-darkAccent font-semibold border-r-2 border-lightAccent dark:border-darkAccent pr-1 animate-pulse">
-                  {displayedText}
+                <span className="text-lightAccent dark:text-darkAccent font-semibold">
+                  Full Stack Developer
                 </span>
               </p>
             </div>
@@ -175,14 +144,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           >
             <button
               onClick={() => handleScrollTo('projects')}
-              className="group flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full bg-lightAccent dark:bg-gradient-to-r dark:from-darkAccent dark:to-darkSecondaryAccent text-white font-semibold text-sm cursor-pointer shadow-lg shadow-lightAccent/10 hover:shadow-lightAccent/20 dark:shadow-black/20 dark:hover:shadow-black/30 hover:translate-y-[-2px] transition-all duration-300"
+              className="group flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full bg-darkAccent hover:bg-darkSecondaryAccent text-white font-semibold text-sm cursor-pointer shadow-lg shadow-black/20 hover:shadow-darkAccent/20 hover:translate-y-[-2px] transition-all duration-300"
             >
               View Projects
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={onOpenResume}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full border border-gray-200/20 dark:border-darkAccent bg-white/50 dark:bg-gray-900 text-lightText dark:text-darkAccent font-semibold text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-darkAccent dark:hover:text-white hover:translate-y-[-2px] transition-all duration-300"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full glass-subtle-interactive text-darkHeading font-semibold text-sm cursor-pointer hover:text-white hover:translate-y-[-2px] transition-all duration-300"
             >
               <Download className="w-4 h-4" />
               Download Resume
@@ -198,7 +167,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               href={socials.github}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full glass-subtle-interactive text-gray-400 hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-105"
               title="GitHub"
             >
               <Github className="w-4 h-4" />
@@ -207,7 +176,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               href={socials.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full glass-subtle-interactive text-gray-400 hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-105"
               title="LinkedIn"
             >
               <Linkedin className="w-4 h-4" />
@@ -216,7 +185,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               href={socials.x}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full glass-subtle-interactive text-gray-400 hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-105"
               title="X"
             >
               <X className="w-4 h-4" />
@@ -225,14 +194,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               href={socials.leetcode}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full glass-subtle-interactive text-gray-400 hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-105"
               title="LeetCode"
             >
               <Code2 className="w-4 h-4" />
             </a>
             <a
               href={socials.email}
-              className="p-3 rounded-full border border-gray-200/20 dark:border-gray-800 bg-white/50 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 hover:border-lightAccent dark:hover:border-darkAccent hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full glass-subtle-interactive text-gray-400 hover:text-darkAccent cursor-pointer transition-all duration-300 hover:scale-105"
               title="Email"
             >
               <Mail className="w-4 h-4" />
@@ -290,7 +259,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             </motion.div>
 
             {/* Premium centered status badge sitting naturally below */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-stone-200 dark:border-[#292524] bg-white dark:bg-[#171717] shadow-sm select-none">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-subtle shadow-sm select-none">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>

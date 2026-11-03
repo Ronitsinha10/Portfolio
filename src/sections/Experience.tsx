@@ -63,7 +63,7 @@ export const Experience: React.FC = () => {
         {/* Timeline container */}
         <div ref={containerRef} className="relative max-w-3xl mx-auto pl-8 sm:pl-12">
           {/* 1. Underlying timeline background line */}
-          <div className="absolute left-4 sm:left-6 top-3 bottom-3 w-[2px] bg-gray-200 dark:bg-gray-800 pointer-events-none rounded-full" />
+          <div className="absolute left-4 sm:left-6 top-3 bottom-3 w-[2px] bg-white/10 pointer-events-none rounded-full" />
 
           {/* 2. Scroll-connected line overlay */}
           <motion.div
@@ -77,15 +77,15 @@ export const Experience: React.FC = () => {
               <ScrollStaggerItem key={exp.id} animation="fade-right">
                 <div className="relative flex flex-col gap-3">
                   {/* Milestone Node Badge */}
-                  <div className="absolute left-[-32px] sm:left-[-48px] top-1.5 z-10 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border-4 border-white dark:border-gray-950 bg-gray-50 dark:bg-gray-900 shadow-sm transition-colors duration-300">
+                  <div className="absolute left-[-32px] sm:left-[-48px] top-1.5 z-10 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/10 glass-subtle shadow-xs">
                     {getIcon(exp.type)}
                   </div>
 
-                {/* Info Card */}
-                <div className="p-6 rounded-2xl border border-gray-200/25 dark:border-gray-800/85 bg-white dark:bg-gray-900 shadow-sm hover:border-lightAccent/25 dark:hover:border-darkAccent/25 hover:shadow-md transition-all duration-300">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 dark:border-gray-800/50 pb-3 mb-4">
+                {/* Experience & Education Info Card (Light Glass) */}
+                <div className="p-6 rounded-lg glass-light-interactive">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3 mb-4">
                     <div>
-                      <h3 className="font-display font-bold text-sm sm:text-base text-lightText dark:text-darkText">
+                      <h3 className="font-display font-bold text-sm sm:text-base text-lightHeading dark:text-darkHeading">
                         {exp.role}
                       </h3>
                       <p className="text-xs text-lightAccent dark:text-darkAccent font-semibold mt-0.5">

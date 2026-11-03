@@ -38,37 +38,37 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             className="absolute inset-0 bg-gray-950/80 backdrop-blur-md"
           />
 
-          {/* Modal Container */}
+          {/* Modal Container (Primary Glass) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-4xl h-[85vh] flex flex-col rounded-3xl border border-gray-200/20 dark:border-gray-800/80 bg-white dark:bg-gray-900 shadow-2xl overflow-hidden z-10"
+            className="relative w-full max-w-4xl h-[85vh] flex flex-col rounded-lg glass-primary shadow-2xl overflow-hidden z-10"
           >
             {/* Header controls */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/20 dark:border-gray-800/50 bg-gray-50 dark:bg-gray-950/50">
-              <span className="font-display font-bold text-sm tracking-tight text-gray-800 dark:text-gray-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 glass-subtle">
+              <span className="font-display font-bold text-sm tracking-tight text-gray-200">
                 Interactive Resume Preview
               </span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handlePrint}
-                  className="p-2 rounded-xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                  className="p-2 rounded-lg glass-subtle-interactive text-stone-300 hover:text-white cursor-pointer"
                   title="Print Resume"
                 >
                   <Printer className="w-4 h-4" />
                 </button>
                 <a
                   href={`mailto:${portfolioData.personalInfo.email}`}
-                  className="p-2 rounded-xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                  className="p-2 rounded-lg glass-subtle-interactive text-stone-300 hover:text-white cursor-pointer"
                   title="Contact Ronit"
                 >
                   <Mail className="w-4 h-4" />
                 </a>
                 <button
                   onClick={onClose}
-                  className="p-2.5 rounded-xl bg-gray-200/30 hover:bg-gray-200/60 dark:bg-gray-800/50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 cursor-pointer transition-colors"
+                  className="p-2.5 rounded-lg glass-subtle-interactive text-stone-300 hover:text-white cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X className="w-4 h-4" />
@@ -77,8 +77,8 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </div>
 
             {/* Scrollable PDF Sheet View */}
-            <div className="flex-1 overflow-y-auto p-8 bg-gray-100 dark:bg-gray-950 flex justify-center">
-              <div className="w-full max-w-2xl bg-white text-gray-800 p-8 sm:p-12 rounded-xl shadow-md flex flex-col gap-6 text-xs font-sans print:p-0 print:shadow-none print:w-full print:max-w-none">
+            <div className="flex-1 overflow-y-auto p-8 bg-black/40 flex justify-center">
+              <div className="w-full max-w-2xl bg-white text-gray-800 p-8 sm:p-12 rounded-lg shadow-md flex flex-col gap-6 text-xs font-sans print:p-0 print:shadow-none print:w-full print:max-w-none">
                 {/* PDF Header */}
                 <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 border-b pb-6 border-gray-200">
                   <div>
@@ -197,16 +197,16 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </div>
 
             {/* Bottom Actions */}
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200/20 dark:border-gray-800/50 bg-gray-50 dark:bg-gray-950/50">
+            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-white/10 bg-[rgba(15,18,24,0.6)]">
               <button
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300 font-medium text-xs uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                className="px-4 py-2 rounded-lg glass-subtle-interactive text-stone-300 hover:text-white font-medium text-xs uppercase tracking-wider cursor-pointer transition-all"
               >
                 Close
               </button>
               <button
                 onClick={handlePrint}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-lightAccent dark:bg-darkAccent hover:bg-lightAccent/90 dark:hover:bg-darkAccent/90 text-white font-medium text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-lightAccent/10 transition-all"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-lightAccent dark:bg-darkAccent hover:bg-lightAccent/90 dark:hover:bg-darkAccent/90 text-white font-medium text-xs uppercase tracking-wider cursor-pointer shadow-md transition-all"
               >
                 <Download className="w-3.5 h-3.5" />
                 Download PDF / Print

@@ -1,38 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { scrollToSection } from '../utils/navigation';
 
 export const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollPercentage, setScrollPercentage] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      
-      if (scrollHeight > 0) {
-        setScrollPercentage(scrolled / scrollHeight);
-      }
-
-      setIsVisible(scrolled > 400);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  // Optimized Framer Motion scroll tracking (no React re-renders on scroll)
+  const { scrollY, scrollYProgress } = useScroll();
 
   // SVG parameters for scroll path circle
   const radius = 20;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - scrollPercentage * circumference;
+  const strokeDashoffset = useTransform(scrollYProgress, [0, 1], [circumference, 0]);
+
+  // Only trigger a React state update when crossing the 400px threshold
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const shouldBeVisible = latest > 400;
+    setIsVisible((prev) => (prev !== shouldBeVisible ? shouldBeVisible : prev));
+  });
+
+  const scrollToTop = () => {
+    if (location.pathname === '/') {
+      scrollToSection('home');
+    } else if (!location.pathname.startsWith('/project/')) {
+      navigate('/');
+      scrollToSection('home');
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -44,7 +47,7 @@ export const BackToTop: React.FC = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-[40] flex items-center justify-center w-12 h-12 rounded-full border border-gray-200/20 dark:border-gray-800/80 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md text-lightAccent dark:text-darkAccent shadow-lg cursor-pointer"
+          className="fixed bottom-6 right-6 z-[40] flex items-center justify-center w-12 h-12 rounded-full glass-light-interactive text-lightAccent dark:text-darkAccent shadow-md cursor-pointer"
           aria-label="Back to Top"
         >
           {/* Radial progress ring */}
@@ -53,7 +56,7 @@ export const BackToTop: React.FC = () => {
               cx="24"
               cy="24"
               r={radius}
-              className="stroke-gray-200/30 dark:stroke-gray-800/30"
+              className="stroke-white/10"
               strokeWidth="3"
               fill="transparent"
             />
@@ -66,7 +69,6 @@ export const BackToTop: React.FC = () => {
               fill="transparent"
               strokeDasharray={circumference}
               style={{ strokeDashoffset }}
-              transition={{ ease: 'easeOut', duration: 0.1 }}
             />
           </svg>
 
